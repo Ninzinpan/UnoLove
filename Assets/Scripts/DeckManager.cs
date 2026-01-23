@@ -5,8 +5,6 @@ using System.Collections.Generic;
 public class DeckManager : MonoBehaviour
 {
     [Header("Deck Settings")]
-    [SerializeField] HandManager handManager;
-    [SerializeField] DuelistManager duelistManager;
 
     [Header("Game State")]
     [SerializeField]
@@ -14,13 +12,10 @@ public class DeckManager : MonoBehaviour
     private List<CardData> discardPile = new List<CardData>();
     private void Awake()
     {
-        InistializeDeck();
     }
-    private void InistializeDeck()
+    public void SetDeck(List<CardData> startingDeck)
     {
-        drawPile = new List<CardData>(duelistManager.StartingDeck);
-        ShuffleDeck();
-        DrawCard(3);
+        drawPile = new List<CardData>(startingDeck);
     }
 
     public void ShuffleDeck()
@@ -34,20 +29,20 @@ public class DeckManager : MonoBehaviour
         }
         Debug.Log("デッキをシャッフルしました");
     }
-    public void DrawCard(int count)
+    public CardData DrawCard()
     {
-        for (int i =0; i < count; i++)
-        {
+        
             if (drawPile.Count == 0)
             {
                 Debug.LogWarning("山札が空です。カードを引けません。");
-                return;
+                return null;
             }
             CardData drawnCard = drawPile[0];
             drawPile.RemoveAt(0);
 
             Debug.Log($"カードを引きました: {drawnCard.name}");
-        }
+            return drawnCard;
+        
     }
     public void DiscardCard(CardData card)
     {
