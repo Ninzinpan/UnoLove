@@ -5,7 +5,7 @@ public enum CardColor
 {
     Red,
     Green,
-    Yellow
+    Blue
 }
 public enum CardType
 {

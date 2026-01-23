@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 29736d2ed7220416fa24e92e51086555, type: 3}
-  m_Name: GreenCircle
+  m_Name: BlueCircle
   m_EditorClassIdentifier: Assembly-CSharp::CardData
-  color: 1
+  color: 2
   type: 0
-  cardImage: {fileID: -5209563076105967559, guid: 6f434fa693694433e9ba0d213ec0583a, type: 3}
+  cardImage: {fileID: -3320418183320529682, guid: 5ca4a05254eae4ec5b6a24714fee058c, type: 3}
