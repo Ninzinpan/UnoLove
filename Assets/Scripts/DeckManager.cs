@@ -18,6 +18,7 @@ public class DeckManager : MonoBehaviour
         drawPile = new List<CardData>(startingDeck);
     }
 
+
     public void ShuffleDeck()
     {
         for (int i = 0; i < drawPile.Count; i++)
@@ -48,6 +49,17 @@ public class DeckManager : MonoBehaviour
     {
         discardPile.Add(card);
         Debug.Log($"カードを捨て札にしました: {card.name}");
+    }
+    public void CleanDiscardPile()
+    {
+        if (discardPile.Count == 0)
+        {
+            Debug.LogWarning("捨て札が空です。クリアするカードがありません。");
+            return;
+        }
+    
+        discardPile.Clear();
+        Debug.Log("捨て札をクリアしました");
     }
 }
 

@@ -962,6 +962,7 @@ GameObject:
   - component: {fileID: 1780432185}
   - component: {fileID: 1780432184}
   - component: {fileID: 1780432186}
+  - component: {fileID: 1780432187}
   m_Layer: 5
   m_Name: HandArea
   m_TagString: Untagged
@@ -1052,6 +1053,18 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!225 &1780432187
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1780432182}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1868799659
 GameObject:
   m_ObjectHideFlags: 0
@@ -1172,9 +1185,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TurnManager
   player: {fileID: 476823916}
   opponent: {fileID: 889339079}
-  canvasGroup: {fileID: 1434109838}
-  turnCount: 0
-  limitTurn: 5
+  canvasGroup: {fileID: 1780432187}
 --- !u!4 &2090185401
 Transform:
   m_ObjectHideFlags: 0
@@ -1221,7 +1232,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HandManager
   hand: []
   cardPrehub: {fileID: 3753397393721700458, guid: d7e9cbe8629b740fd9fa3a210771a130, type: 3}
-  handArea: {fileID: 1481987568}
+  handArea: {fileID: 0}
 --- !u!4 &2118727953
 Transform:
   m_ObjectHideFlags: 0

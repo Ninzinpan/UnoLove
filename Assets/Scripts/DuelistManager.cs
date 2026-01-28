@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 class  DuelistManager : MonoBehaviour
 {
@@ -15,6 +16,8 @@ class  DuelistManager : MonoBehaviour
 [Header("Duelist Settings")]
     [SerializeField]
     private int initialHandCount = 3;
+
+    public int InitialHandCount => initialHandCount;
 
     public List<CardData> StartingDeck{get; private set;} = new List<CardData>();
 
@@ -47,12 +50,30 @@ class  DuelistManager : MonoBehaviour
             return;
         }
     }
-    private void Start()
+    private  void Start()
     {
+    }
+
+    public void InitializeDuelist()
+    {
+        handManager.RemoveAllCards();
+        deckManager.CleanDiscardPile();
+        if (StartingDeck == null)
+        {
+            Debug.LogError("StartingDeckが設定されていません。");
+            return;
+        }
+        else if (StartingDeck.Count == 0)
+        {
+            Debug.LogWarning("StartingDeckが空です。カードを引けません。");
+            return;
+        }
+        deckManager.SetDeck(StartingDeck);
+        deckManager.ShuffleDeck();
         DrawCardtoHand(initialHandCount);
     }
 
-    private void DrawCardtoHand(int count)
+    public void DrawCardtoHand(int count )
     {
         for (int i = 0; i < count; i++)
         {
@@ -63,6 +84,19 @@ class  DuelistManager : MonoBehaviour
             }
         }
     }
+
+    public async Task DrawCardtoHandWithAnimation(int count )
+    {
+        for (int i = 0; i < count; i++)
+        {
+            CardData drawnCard = deckManager.DrawCard();
+            if (drawnCard != null)
+            {
+                await handManager.AddCardWithAnimation(drawnCard);
+            }
+        }
+    }
+    
     private void DiscardCardFromHand(CardData card)
     {
         if (handManager.RemoveCard(card))
