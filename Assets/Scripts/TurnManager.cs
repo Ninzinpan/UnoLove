@@ -22,6 +22,7 @@ private int limitTurn = 5;
 
     public WhoseTurn CurrentTurn => currentTurn;
     public TurnPhase CurrentPhase {get; private set;}
+    private TaskCompletionSource<CardView> _tcs;
 
 public enum WhoseTurn
     {
@@ -35,9 +36,12 @@ public enum WhoseTurn
         Select,
         Play,
         End
+
     }
+    
     async void Start()
     {
+        player.OnCardPlayed = (card) => {_tcs?.TrySetResult(card);};
         await MainGameloop();
     }
 
@@ -46,9 +50,9 @@ private async Task MainGameloop()
     {
        player.InitializeDuelist();
         opponent.InitializeDuelist();
-        await player.DrawCardtoHandWithAnimation(player.InitialHandCount);
-        await opponent.DrawCardtoHandWithAnimation(opponent.InitialHandCount);
-
+        await player.DrawCardtoHand(player.InitialHandCount);
+        await opponent.DrawCardtoHand(opponent.InitialHandCount);
+        
         while (!ifGameEnd){
         await TurnSequence(player, WhoseTurn.Player);
         await TurnSequence(opponent, WhoseTurn.Opponent);
@@ -58,9 +62,9 @@ private async Task MainGameloop()
 private async Task TurnSequence(DuelistManager duelist, WhoseTurn turn)
     {
         Debug.Log($"{turn}のターンが始まりました。{turnCount}ターン目");
-        currentTurn = turn;
-        await duelist.DrawCardtoHandWithAnimation(1);
-        SetPlayerInputEnabled(turn == WhoseTurn.Player);
+        await DrawPhase(duelist, turn);
+        await SelectPhase(duelist, turn);
+        
         turnCount++;
         check_game_end();
         Debug.Log($"{turn}のターンが終了しました。");
@@ -70,8 +74,34 @@ private async Task TurnSequence(DuelistManager duelist, WhoseTurn turn)
 
         
     }
+    private async Task DrawPhase(DuelistManager duelist, WhoseTurn turn)
+    {
+        currentTurn = turn;
+        currentPhase = TurnPhase.Draw;
+        Debug.Log($"{turn}のドローフェイズが始まりました。");
+        await duelist.DrawCardtoHand(1);
+    }
+
+    private async Task SelectPhase(DuelistManager duelist, WhoseTurn turn)
+    {
+        currentTurn = turn;
+        currentPhase = TurnPhase.Select;
+        Debug.Log($"{turn}のセレクトフェイズが始まりました。");
+        SetPlayerInputEnabled(turn == WhoseTurn.Player);
+        _tcs = new TaskCompletionSource<CardView>();
+        CardView selectedCard = await _tcs.Task;
+        _tcs = null;
+        Debug.Log($"{turn}が{selectedCard.Data.name}カードを選択しました: {selectedCard.Data.name}");
+
+        SetPlayerInputEnabled(false);
+
+
+    }
+
+
 
     // Update is called once per frame
+
 
     private void check_game_end()
     {
@@ -92,6 +122,7 @@ private async Task TurnSequence(DuelistManager duelist, WhoseTurn turn)
         {
             canvasGroup.interactable = ennabled;
             canvasGroup.blocksRaycasts = ennabled;
+            canvasGroup.alpha = ennabled ? 1f : 0.5f;
             Debug.Log($"プレイヤーの入力を{(ennabled ? "有効" : "無効")}にしました。");
         }
         else

@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System;
 
 class  DuelistManager : MonoBehaviour
 {
@@ -20,6 +21,7 @@ class  DuelistManager : MonoBehaviour
     public int InitialHandCount => initialHandCount;
 
     public List<CardData> StartingDeck{get; private set;} = new List<CardData>();
+    public  Action<CardView> OnCardPlayed;
 
     private void Awake()
     {
@@ -41,7 +43,6 @@ class  DuelistManager : MonoBehaviour
             else{
 
             deckManager.SetDeck(StartingDeck);
-            deckManager.ShuffleDeck();
             }
         }
         else
@@ -56,6 +57,7 @@ class  DuelistManager : MonoBehaviour
 
     public void InitializeDuelist()
     {
+        Debug.Log("デュエリストを初期化します。");
         handManager.RemoveAllCards();
         deckManager.CleanDiscardPile();
         if (StartingDeck == null)
@@ -70,38 +72,32 @@ class  DuelistManager : MonoBehaviour
         }
         deckManager.SetDeck(StartingDeck);
         deckManager.ShuffleDeck();
-        DrawCardtoHand(initialHandCount);
     }
 
-    public void DrawCardtoHand(int count )
+
+
+    public async Task DrawCardtoHand(int count )
     {
         for (int i = 0; i < count; i++)
         {
             CardData drawnCard = deckManager.DrawCard();
             if (drawnCard != null)
             {
-                handManager.AddCard(drawnCard);
+                await handManager.AddCard(drawnCard, HandleCardPlayed, true);
             }
         }
     }
-
-    public async Task DrawCardtoHandWithAnimation(int count )
+private void HandleCardPlayed(CardView card)
     {
-        for (int i = 0; i < count; i++)
-        {
-            CardData drawnCard = deckManager.DrawCard();
-            if (drawnCard != null)
-            {
-                await handManager.AddCardWithAnimation(drawnCard);
-            }
-        }
+        OnCardPlayed?.Invoke(card);
     }
     
-    private void DiscardCardFromHand(CardData card)
+    
+    private void DiscardCardFromHand(CardView card)
     {
         if (handManager.RemoveCard(card))
         {
-            deckManager.DiscardCard(card); 
+            deckManager.DiscardCard(card.Data); 
 
         }
 

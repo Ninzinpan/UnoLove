@@ -1,42 +1,44 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System;
+using System.Runtime.CompilerServices;
 
 class HandManager : MonoBehaviour
 {
     [SerializeField]
-    private List<CardData> hand;
+    private List<CardView> hand;
     [SerializeField]
     private GameObject cardPrehub;
     [SerializeField]
     private Transform handArea;
-    public List<CardData> Hand => hand;
+    public List<CardView> Hand => hand;
     void Awake()
     {
-        hand = new List<CardData>();
+        hand = new List<CardView>();
     }
 
-    public void AddCard(CardData card)
+    public async Task AddCard(CardData card, Action<CardView> onClick,bool animation =false)
     {
-        hand.Add(card);
         GameObject cardView = Instantiate(cardPrehub,handArea);
         CardView view = cardView.GetComponent<CardView>();
-        view.SetUp(card);
+        view.SetUp(card, onClick);
+        hand.Add(view);
+        if (animation)
+        {
+            await Task.Delay(500); // 少し待ってからログを出す
+        }
         Debug.Log($"カードを手札に追加しました: {card.name}");
     }
-public async Task AddCardWithAnimation(CardData card)
-    {
-        hand.Add(card);
-        GameObject cardView = Instantiate(cardPrehub,handArea);
-        CardView view = cardView.GetComponent<CardView>();
-        view.SetUp(card);
-        await Task.Delay(500); // 少し待ってからログを出す
-        Debug.Log($"カードを手札に追加しました: {card.name}");
-    }
+
     public bool RemoveAllCards()
     {
         if (hand.Count > 0)
         {
+            foreach (var card in hand)
+            {
+                card.Delite();
+            }
             hand.Clear();
             Debug.Log("手札の全てのカードを削除しました");
             return true;
@@ -47,17 +49,17 @@ public async Task AddCardWithAnimation(CardData card)
             return false;
         }
     }
-public bool RemoveCard(CardData card)
+public bool RemoveCard(CardView card)
     {
-        if (hand.Remove(card))
+        if (card == null)
         {
-            Debug.Log($"カードを手札から削除しました: {card.name}");
-            return true;
-        }
-        else
-        {
-            Debug.LogWarning($"手札にカードが見つかりません: {card.name}");
+            Debug.LogWarning("HandManager:削除しようとしたカードがnullです。");
             return false;
         }
+        card.Delite();
+
+        return true;
+        
+
     }
 }
