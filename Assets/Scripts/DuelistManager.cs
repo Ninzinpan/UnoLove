@@ -93,7 +93,7 @@ private void HandleCardPlayed(CardView card)
     }
     
     
-    private void DiscardCardFromHand(CardView card)
+    public void DiscardCardFromHand(CardView card)
     {
         if (handManager.RemoveCard(card))
         {

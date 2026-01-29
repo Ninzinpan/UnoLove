@@ -10,6 +10,8 @@ public class TurnManager : MonoBehaviour
     private DuelistManager opponent;
     [SerializeField]
     private CanvasGroup canvasGroup;
+    [SerializeField]
+    private FieldManager fieldManager;
 
 [SerializeField]
 private int turnCount = 0;
@@ -23,6 +25,7 @@ private int limitTurn = 5;
     public WhoseTurn CurrentTurn => currentTurn;
     public TurnPhase CurrentPhase {get; private set;}
     private TaskCompletionSource<CardView> _tcs;
+    private CardView _selectedCard;
 
 public enum WhoseTurn
     {
@@ -64,6 +67,7 @@ private async Task TurnSequence(DuelistManager duelist, WhoseTurn turn)
         Debug.Log($"{turn}のターンが始まりました。{turnCount}ターン目");
         await DrawPhase(duelist, turn);
         await SelectPhase(duelist, turn);
+        await PlayPhase(duelist, turn);
         
         turnCount++;
         check_game_end();
@@ -89,13 +93,42 @@ private async Task TurnSequence(DuelistManager duelist, WhoseTurn turn)
         Debug.Log($"{turn}のセレクトフェイズが始まりました。");
         SetPlayerInputEnabled(turn == WhoseTurn.Player);
         _tcs = new TaskCompletionSource<CardView>();
-        CardView selectedCard = await _tcs.Task;
+        _selectedCard = await _tcs.Task;
         _tcs = null;
-        Debug.Log($"{turn}が{selectedCard.Data.name}カードを選択しました: {selectedCard.Data.name}");
+        Debug.Log($"{turn}がカードを選択しました: {_selectedCard.Data.name}");
 
         SetPlayerInputEnabled(false);
 
 
+    }
+
+    private async Task PlayPhase(DuelistManager duelist, WhoseTurn turn)
+    {
+        currentTurn = turn;
+        currentPhase = TurnPhase.Play;
+        Debug.Log($"{turn}のプレイフェイズが始まりました。");
+        if (_selectedCard != null)
+        {
+            Debug.Log($"{turn}がカードをプレイしました: {_selectedCard.Data.name}");
+            if (fieldManager != null)
+            {
+                fieldManager.AddCard(_selectedCard.Data);
+            }
+            else
+            {
+                Debug.LogWarning("FieldManagerが割り当てられていません。");
+
+        }
+                    duelist.DiscardCardFromHand(_selectedCard);
+                    _selectedCard = null;
+
+        }
+        else
+        {
+            Debug.LogWarning($"{turn}が選択したカードがありません。");
+        }
+        await Task.Delay(500); // 少し待つ
+        
     }
 
 

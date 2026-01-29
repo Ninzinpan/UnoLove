@@ -39,15 +39,25 @@ class HandManager : MonoBehaviour
             {
                 card.Delite();
             }
+
+            
             hand.Clear();
             Debug.Log("手札の全てのカードを削除しました");
-            return true;
         }
+
+        
         else
         {
             Debug.LogWarning("手札にカードがありません。削除できません。");
-            return false;
         }
+        
+        foreach (Transform child in handArea)
+            {
+                Destroy(child.gameObject);
+
+                Debug.Log("handareaのカードオブジェクトを全て削除しました");
+            }
+        return true;
     }
 public bool RemoveCard(CardView card)
     {
