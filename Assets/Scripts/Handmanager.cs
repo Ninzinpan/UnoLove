@@ -20,8 +20,18 @@ class HandManager : MonoBehaviour
 
     public async Task AddCard(CardData card, Action<CardView> onClick,bool animation =false)
     {
+        if (card == null)
+        {
+            Debug.LogWarning("HandManager:追加しようとしたカードデータがnullです。");
+            return;
+        }
         GameObject cardView = Instantiate(cardPrehub,handArea);
         CardView view = cardView.GetComponent<CardView>();
+        if (view == null)
+        {
+            Debug.LogError("HandManager:CardViewコンポーネントが見つかりません。");
+            return;
+        }
         view.SetUp(card, onClick);
         hand.Add(view);
         if (animation)
@@ -66,6 +76,7 @@ public bool RemoveCard(CardView card)
             Debug.LogWarning("HandManager:削除しようとしたカードがnullです。");
             return false;
         }
+        hand.Remove(card);
         card.Delite();
 
         return true;

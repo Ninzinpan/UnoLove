@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using UnityEngine.Rendering;
 
 public class TurnManager : MonoBehaviour
@@ -84,6 +85,7 @@ private async Task TurnSequence(DuelistManager duelist, WhoseTurn turn)
         currentPhase = TurnPhase.Draw;
         Debug.Log($"{turn}のドローフェイズが始まりました。");
         await duelist.DrawCardtoHand(1);
+        await Task.Delay(50); // 少し待つ
     }
 
     private async Task SelectPhase(DuelistManager duelist, WhoseTurn turn)
@@ -92,15 +94,29 @@ private async Task TurnSequence(DuelistManager duelist, WhoseTurn turn)
         currentPhase = TurnPhase.Select;
         Debug.Log($"{turn}のセレクトフェイズが始まりました。");
         SetPlayerInputEnabled(turn == WhoseTurn.Player);
+        if (turn == WhoseTurn.Player){
         _tcs = new TaskCompletionSource<CardView>();
         _selectedCard = await _tcs.Task;
+        }
+        else
+        {
+            var playerHandManager = player.HandManager;
+            _selectedCard = await duelist.CPUSelectCard(playerHandManager.Hand,  fieldManager.CurrentFieldCardView);
+        }
         _tcs = null;
+        if (_selectedCard == null)
+        {
+            Debug.LogWarning($"{turn}がカードを選択できませんでした。");
+            return;
+        }
         Debug.Log($"{turn}がカードを選択しました: {_selectedCard.Data.name}");
 
         SetPlayerInputEnabled(false);
+        await Task.Delay(500); // 少し待つ
 
 
     }
+
 
     private async Task PlayPhase(DuelistManager duelist, WhoseTurn turn)
     {

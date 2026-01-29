@@ -14,6 +14,7 @@ public class FieldManager : MonoBehaviour
     private List<CardData> fieldCards = new List<CardData>();
 
     public List<CardData> FieldCards => fieldCards;
+    public FieldCardView CurrentFieldCardView => fieldCardView;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -34,8 +35,11 @@ public class FieldManager : MonoBehaviour
     public void AddCard(CardData card)
     {
         fieldCards.Add(card);
-        fieldCardView.UpdateImage(card);
-        
+        fieldCardView.UpdateFieldCard(card);
+    }
+    public FieldCardView GetFieldCardView()
+    {
+        return fieldCardView;
     }
     
         

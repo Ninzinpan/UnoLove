@@ -2495,7 +2495,7 @@ MonoBehaviour:
   canvasGroup: {fileID: 1434109838}
   fieldManager: {fileID: 724329794}
   turnCount: 0
-  limitTurn: 5
+  limitTurn: 10
 --- !u!4 &2090185401
 Transform:
   m_ObjectHideFlags: 0

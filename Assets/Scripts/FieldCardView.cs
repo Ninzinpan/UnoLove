@@ -15,6 +15,8 @@ public class FieldCardView : MonoBehaviour
     private Action<FieldCardView> onClickAction;
 
 
+ 
+
 public void SetUp(CardData data, Action<FieldCardView> onClick)
     {
         if (data == null)
@@ -30,15 +32,19 @@ public void SetUp(CardData data, Action<FieldCardView> onClick)
         }
 
     }
-
-    public void UpdateImage(CardData data)
+    public void UpdateFieldCard(CardData data)
     {
+        if (data != null)
+        {
+            Data = data;
         if (cardImage != null && data.CardImage != null)
         {
             cardImage.sprite = data.CardImage;
             Debug.Log($"フィールドカードの画像を更新しました: {data.name}");
-        }
+        }        }
     }
+
+
 
     public void Delite()
     {

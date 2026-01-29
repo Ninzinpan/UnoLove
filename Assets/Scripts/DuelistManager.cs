@@ -20,8 +20,11 @@ class  DuelistManager : MonoBehaviour
 
     public int InitialHandCount => initialHandCount;
 
+    public HandManager HandManager => handManager;
+
     public List<CardData> StartingDeck{get; private set;} = new List<CardData>();
     public  Action<CardView> OnCardPlayed;
+    private CPUBrain cPUBrain;
 
     private void Awake()
     {
@@ -101,5 +104,15 @@ private void HandleCardPlayed(CardView card)
 
         }
 
+    }
+    public async Task<CardView> CPUSelectCard(List<CardView> playerhand ,FieldCardView fieldCard)
+    {
+        if (cPUBrain == null)
+        {
+            cPUBrain = new CPUBrain();
+        }
+        var cpuHand = handManager.Hand;
+        var selectedCard = await cPUBrain.SelectCard(cpuHand, playerhand, fieldCard);
+        return selectedCard;
     }
 }
