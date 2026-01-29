@@ -3,6 +3,11 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine.Rendering;
 
+public enum WhoseTurn
+    {
+        Player,
+        Opponent
+    }
 public class TurnManager : MonoBehaviour
 {
     [SerializeField]
@@ -13,6 +18,8 @@ public class TurnManager : MonoBehaviour
     private CanvasGroup canvasGroup;
     [SerializeField]
     private FieldManager fieldManager;
+        [SerializeField]
+    private ScoreManager scoreManager;
 
 [SerializeField]
 private int turnCount = 0;
@@ -24,15 +31,12 @@ private int limitTurn = 5;
     private bool ifGameEnd = false;
 
     public WhoseTurn CurrentTurn => currentTurn;
+    public int TurnCount => turnCount;
     public TurnPhase CurrentPhase {get; private set;}
     private TaskCompletionSource<CardView> _tcs;
     private CardView _selectedCard;
 
-public enum WhoseTurn
-    {
-        Player,
-        Opponent
-    }
+
     public enum TurnPhase
     {
         Init,
@@ -69,6 +73,7 @@ private async Task TurnSequence(DuelistManager duelist, WhoseTurn turn)
         await DrawPhase(duelist, turn);
         await SelectPhase(duelist, turn);
         await PlayPhase(duelist, turn);
+        await CalculatePhase(duelist, turn);
         
         turnCount++;
         check_game_end();
@@ -145,6 +150,18 @@ private async Task TurnSequence(DuelistManager duelist, WhoseTurn turn)
         }
         await Task.Delay(500); // 少し待つ
         
+    }
+    private async Task CalculatePhase(DuelistManager duelist, WhoseTurn turn)
+    {
+        Debug.Log($"{turn}のCalculatePhaseが始まりました");
+        if (fieldManager == null)
+        {
+            Debug.LogWarning("fieldManagerが割り当てられていません");
+            return;
+        }
+        var fieldCards = fieldManager.FieldCards;
+        scoreManager.CalculateScore(fieldCards);
+        await Task.Delay(500);
     }
 
 
