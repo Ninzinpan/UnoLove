@@ -5,13 +5,15 @@ public enum CardColor
 {
     Red,
     Green,
-    Blue
+    Blue,
+    Grey
 }
 public enum CardType
 {
     Circle,
     Square,
-    Triangle
+    Triangle,
+    NoneShape
 }
 
 [CreateAssetMenu(fileName = "NewCard", menuName = "UnoLovePrototype/CardData")]

@@ -8,6 +8,7 @@ public enum WhoseTurn
         Player,
         Opponent
     }
+
 public class TurnManager : MonoBehaviour
 {
     [SerializeField]
@@ -22,17 +23,26 @@ public class TurnManager : MonoBehaviour
     private ScoreManager scoreManager;
 
 [SerializeField]
-private int turnCount = 0;
+private int turnCount = 1;
 [SerializeField]
 private int limitTurn = 5;
 
+[SerializeField]
+private int targetScore = 500;
+
     private WhoseTurn currentTurn;
     private TurnPhase currentPhase;
-    private bool ifGameEnd = false;
+    private GameEndState gameEndState;
 
     public WhoseTurn CurrentTurn => currentTurn;
     public int TurnCount => turnCount;
+    public int LimitTurn => limitTurn;
+
+    public int TargetScore => targetScore;
     public TurnPhase CurrentPhase {get; private set;}
+
+    public static event System.Action<GameEndState> OnGameFinished;
+
     private TaskCompletionSource<CardView> _tcs;
     private CardView _selectedCard;
 
@@ -46,6 +56,12 @@ private int limitTurn = 5;
         End
 
     }
+    public enum GameEndState{
+        Continue,
+        Victory,
+        Lose
+        
+    }
     
     async void Start()
     {
@@ -56,27 +72,40 @@ private int limitTurn = 5;
 private async Task MainGameloop()
     
     {
+        gameEndState = GameEndState.Continue;
        player.InitializeDuelist();
         opponent.InitializeDuelist();
         await player.DrawCardtoHand(player.InitialHandCount);
         await opponent.DrawCardtoHand(opponent.InitialHandCount);
         
-        while (!ifGameEnd){
+        while (true){
         await TurnSequence(player, WhoseTurn.Player);
+        if (gameEndState != GameEndState.Continue)
+            {
+                break;
+            }
         await TurnSequence(opponent, WhoseTurn.Opponent);
+        if (gameEndState != GameEndState.Continue)
+            {
+                break;
+            }
 
     }
     }
 private async Task TurnSequence(DuelistManager duelist, WhoseTurn turn)
     {
         Debug.Log($"{turn}のターンが始まりました。{turnCount}ターン目");
-        await DrawPhase(duelist, turn);
+
         await SelectPhase(duelist, turn);
         await PlayPhase(duelist, turn);
         await CalculatePhase(duelist, turn);
+        await DrawPhase(duelist, turn);
+
+
         
-        turnCount++;
         check_game_end();
+        turnCount++;
+
         Debug.Log($"{turn}のターンが終了しました。");
 
 
@@ -173,9 +202,19 @@ private async Task TurnSequence(DuelistManager duelist, WhoseTurn turn)
     {
         if (turnCount >= limitTurn)
         {
-            ifGameEnd = true;
-            Debug.Log("ゲーム終了条件を満たしました。ゲームを終了します。");
+            gameEndState = GameEndState.Lose;
+            Debug.Log("ターンリミットです。ゲームを終了します。");
+            OnGameFinished?.Invoke(gameEndState);
+            return;
         }
+        if (scoreManager.CurrentScore >= targetScore)
+        {
+            gameEndState = GameEndState.Victory;
+            Debug.Log("目標スコアを達成しました。ゲームを終了します。");
+            OnGameFinished?.Invoke(gameEndState);
+
+        }
+        
     }
     void Update()
     {
