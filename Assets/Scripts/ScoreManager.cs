@@ -5,7 +5,7 @@ using UnityEngine;
 public class ScoreManager : MonoBehaviour
 {
     [SerializeField]
-    private double comboMagnificatioin = 1.5;
+    private double comboMagnificatioin = 0.2;
     [SerializeField]
     private int baseScorePerCard = 100;
     [SerializeField]
@@ -56,7 +56,7 @@ public class ScoreManager : MonoBehaviour
         if ((currentdata.Color == furtherdata.Color)  ||(currentdata.Type == furtherdata.Type))
         {
             currentComboCount += 1;
-            var finaldoubleScore = baseScorePerCard * currentComboCount * comboMagnificatioin;
+            var finaldoubleScore = baseScorePerCard + (baseScorePerCard*  comboMagnificatioin *currentComboCount);
             finalScore = (int)finaldoubleScore;
         }
         else{

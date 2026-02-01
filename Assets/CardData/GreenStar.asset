@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 29736d2ed7220416fa24e92e51086555, type: 3}
-  m_Name: GreyNoneShape
+  m_Name: GreenStar
   m_EditorClassIdentifier: Assembly-CSharp::CardData
-  color: 3
+  color: 1
   type: 3
-  cardImage: {fileID: -7109280407860384796, guid: fe15cf59261ae49b3906c3ca6c87e63a, type: 3}
+  cardImage: {fileID: 2492342394011978406, guid: f2cfe4c90ddaf40679b3271906f4e4d0, type: 3}

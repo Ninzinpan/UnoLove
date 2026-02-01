@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ff3f54b3066234147ba518fe324ae129, type: 3}
-  m_Name: testBaseDeck 3
+  m_Name: StarDeck
   m_EditorClassIdentifier: Assembly-CSharp::BaseDeckData
   baseDeckCards:
   - {fileID: 11400000, guid: b5ff9aa87c0a64845a401f7ac08b7a91, type: 2}
@@ -23,6 +23,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 85c5439c2752a46c7bfe10db781d1ad4, type: 2}
   - {fileID: 11400000, guid: 82c50c40f29d046c792edf64fe97c9c8, type: 2}
   - {fileID: 11400000, guid: 82c50c40f29d046c792edf64fe97c9c8, type: 2}
-  - {fileID: 11400000, guid: 391ab4430f2eb40b4b3a72133e1e7689, type: 2}
-  - {fileID: 11400000, guid: 391ab4430f2eb40b4b3a72133e1e7689, type: 2}
-  - {fileID: 11400000, guid: 391ab4430f2eb40b4b3a72133e1e7689, type: 2}
+  - {fileID: 11400000, guid: ce5942d2c9b6e45e59d9585fa93dab22, type: 2}
+  - {fileID: 11400000, guid: 105d5eaf7f8b4400f85350dbfdff9149, type: 2}
+  - {fileID: 11400000, guid: c796b3e7cd3e7411caa67b63facd5bba, type: 2}
+  - {fileID: 11400000, guid: 46e5fff3e954c4fe4b69f0b661463569, type: 2}

@@ -6,6 +6,8 @@ public enum CardColor
     Red,
     Green,
     Blue,
+    Yiellow,
+
     Grey
 }
 public enum CardType
@@ -13,6 +15,7 @@ public enum CardType
     Circle,
     Square,
     Triangle,
+    Star,
     NoneShape
 }
 
