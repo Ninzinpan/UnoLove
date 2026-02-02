@@ -115,14 +115,12 @@ private void HandleCardPlayed(BaseCardView card)
         var selectedCard = await cPUBrain.SelectCard(cpuHand, playerhand, fieldCard);
         return selectedCard;
     }
-    public async Task<bool> GetIfSessionfinished()
+    public async Task<TurnManager.SelectContinueState> CPUGetIfSessionContinued(BaseCardView fieldCard)
     {
-        return true;
+        cPUBrain = new CPUBrain();
+        var result = await cPUBrain.DefineIfContinue(handManager.Hand,fieldCard);
+        return result;
     }
-        public async Task<TurnManager.IfSelectContinue> CheckifComboEnd(List<BaseCardView> myHand ,List<BaseCardView> otherHand ,BaseCardView fieldCard)
-    {
-        
-        return TurnManager.IfSelectContinue.Continue;
-    }
+  
 
 }

@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine.Rendering;
+using Mono.Cecil.Cil;
 
 public enum WhoseTurn
     {
@@ -50,6 +51,7 @@ private int targetScore = 500;
     public enum TurnPhase
     {
         Init,
+        StandBy,
         Draw,
         Select,
         Play,
@@ -64,14 +66,14 @@ private int targetScore = 500;
         
     }
 
-    public enum IfSelectContinue
+    public enum SelectContinueState
     {
+        Hold,
         Continue,
         Finish,
         Eroor
     }
     
-public record GameSnapShot(List<BaseCardView> Player,List<BaseCardView> cPUHand,BaseCardView fieldCard);
 
     async void Start()
     {
@@ -85,32 +87,75 @@ private async Task MainGameloop()
         gameEndState = GameEndState.Continue;
        player.InitializeDuelist();
         opponent.InitializeDuelist();
-        await player.DrawCardtoHand(player.InitialHandCount);
-        await opponent.DrawCardtoHand(opponent.InitialHandCount);
-        
+
         while (true){
-        await TurnSequence(player, WhoseTurn.Player);
-        if (gameEndState != GameEndState.Continue)
+        Debug.Log("新たなセッションを開始します。");
+        for(var i  = 0;player.HandManager.Hand.Count< player.InitialHandCount; i++)
             {
-                break;
+                if (player.HandManager.Hand.Count >= player.InitialHandCount) break;
+                await player.DrawCardtoHand(1);
             }
-        await TurnSequence(opponent, WhoseTurn.Opponent);
+        for(var i  = 0;opponent.HandManager.Hand.Count< opponent.InitialHandCount; i++)
+            {
+                if (opponent.HandManager.Hand.Count >= opponent.InitialHandCount) break;
+                await opponent.DrawCardtoHand(1);
+            }
+
+
+        var ComboResult = await ComboLoop(player, opponent);
+        
+        check_game_end();
+        fieldManager.ResetFieldCard();
+
+
+
+
         if (gameEndState != GameEndState.Continue)
             {
                 break;
             }
 
+        await Task.Delay(100);
     }
+
     }
+private async Task<(SelectContinueState selectContinueState,WhoseTurn turn)> ComboLoop(DuelistManager player,DuelistManager opponent)
+    {
+        while(true){
+
+        if (await player.CPUGetIfSessionContinued(fieldManager.CurrentFieldCardView) == SelectContinueState.Finish)
+            {
+                Debug.Log("Playerの出せるカードがありません。コンボを終了します。");
+                return (SelectContinueState.Finish,WhoseTurn.Player);
+            }
+
+        await TurnSequence(player, WhoseTurn.Player);
+
+        if (await opponent.CPUGetIfSessionContinued(fieldManager.CurrentFieldCardView) == SelectContinueState.Finish)
+            {
+                Debug.Log("Opponentの出せるカードがありません。コンボを終了します。");
+                return (SelectContinueState.Finish,WhoseTurn.Opponent);
+            }
+        await TurnSequence(opponent, WhoseTurn.Opponent);
+
+
+
+        }
+    }
+
 private async Task TurnSequence(DuelistManager duelist, WhoseTurn turn)
     {
         Debug.Log($"{turn}のターンが始まりました。{turnCount}ターン目");
+        await StandByPhase(duelist, turn);
+ 
+        //await DrawPhase(duelist, turn);
+                
 
-        await DrawPhase(duelist, turn);
 
         await SelectPhase(duelist, turn);
         await PlayPhase(duelist, turn);
         await CalculatePhase(duelist, turn);
+        await EndPhases(duelist, turn);
 
 
         turnCount++;
@@ -124,12 +169,23 @@ private async Task TurnSequence(DuelistManager duelist, WhoseTurn turn)
 
         
     }
+
+    private async Task StandByPhase(DuelistManager duelist, WhoseTurn turn)
+    {
+        currentTurn = turn;
+        currentPhase = TurnPhase.StandBy;
+        Debug.Log($"{turn}のスタンバイフェイズが始まりました。");
+        
+        await Task.Delay(50);
+
+    }
     private async Task DrawPhase(DuelistManager duelist, WhoseTurn turn)
     {
         currentTurn = turn;
         currentPhase = TurnPhase.Draw;
         Debug.Log($"{turn}のドローフェイズが始まりました。");
-        await duelist.DrawCardtoHand(1);
+        await duelist.DrawCardtoHand(duelist.InitialHandCount);
+        
         await Task.Delay(50); // 少し待つ
     }
 
@@ -209,6 +265,7 @@ private async Task TurnSequence(DuelistManager duelist, WhoseTurn turn)
     private async Task EndPhases(DuelistManager duelist, WhoseTurn turn)
     {
         Debug.Log($"{turn}のエンドフェイズがはじまりました。");
+        
         await Task.Delay(500);
     }
 

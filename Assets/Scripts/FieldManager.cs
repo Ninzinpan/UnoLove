@@ -25,6 +25,7 @@ public class FieldManager : MonoBehaviour
     public void Initialieze()
     {
         fieldCards.Clear();
+        ResetFieldCard();
     }
 
     // Update is called once per frame
@@ -40,6 +41,13 @@ public class FieldManager : MonoBehaviour
     public FieldCardView GetFieldCardView()
     {
         return fieldCardView;
+    }
+
+    public void ResetFieldCard()
+    {
+        fieldCards.Clear();
+        fieldCardView.ResetCardView();
+
     }
     
         

@@ -21,7 +21,7 @@ public async Task<BaseCardView> SelectCard( List<BaseCardView> cpuHand,List<Base
         }   
         foreach (var card in cpuHand)
         {
-             if(IfCardMatch(card,fieldCard))
+             if(CheckIfCardMatch(card,fieldCard))
             {
                 Debug.Log($"CPUがカードを決定しました: {card.Data.name}");
                 return card;
@@ -34,28 +34,38 @@ public async Task<BaseCardView> SelectCard( List<BaseCardView> cpuHand,List<Base
         return cpuHand[index];
 
     }
-public async Task<TurnManager.IfSelectContinue> DefineIfContinue( List<BaseCardView> myHand,List<BaseCardView> otherHand,BaseCardView fieldCard)
+public async Task<TurnManager.SelectContinueState> DefineIfContinue( List<BaseCardView> myHand,BaseCardView fieldCard)
     {
-        if (myHand.Count == 0 || otherHand.Count == 0)
+        if (myHand.Count == 0)
         {
             Debug.Log("手札にカードがありません");
-            return TurnManager.IfSelectContinue.Continue;
+            return TurnManager.SelectContinueState.Finish;
+        }
+        if (fieldCard == null)
+        {
+            Debug.LogWarning("fielidCardを参照できません");
+            return TurnManager.SelectContinueState.Eroor;
+        }
+        if (fieldCard.Data== null)
+        {
+            Debug.Log("最初のfieldCardです。");
+            return TurnManager.SelectContinueState.Continue;
         }
         foreach(var mycard in myHand)
         {
-            foreach(var othercard in otherHand)
+
+            if (CheckIfCardMatch(mycard, fieldCard))
             {
-                if(IfCardMatch(mycard, othercard))
-                {
-                    Debug.Log("マッチするカードがあります。");
-                    return TurnManager.IfSelectContinue.Continue;
-                }
+                return TurnManager.SelectContinueState.Continue;
             }
+            
+            
+     
         
         }
         Debug.Log("マッチするカードが見つかりませんでした。");
 
-        return TurnManager.IfSelectContinue.Finish;
+        return TurnManager.SelectContinueState.Finish;
     }
 
     public int CountMatchNumber (BaseCardView card, List<CardView> hand)
@@ -63,19 +73,20 @@ public async Task<TurnManager.IfSelectContinue> DefineIfContinue( List<BaseCardV
         var count = 0;
         foreach (var a_card in hand)
         {
-            if (IfCardMatch(card, a_card)){
+            if (CheckIfCardMatch(card, a_card)){
                 count++;
                 
             }
         }
         return count;
     }
-    public bool IfCardMatch(BaseCardView playCard, BaseCardView nextCard)
+    public bool CheckIfCardMatch(BaseCardView playCard, BaseCardView nextCard)
     {
         if (playCard == null || nextCard == null)
         {
             Debug.LogWarning("カードが設定されていません。");
             return false;
+        
         }
         if (playCard.Data.Color == nextCard.Data.Color || playCard.Data.Type == nextCard.Data.Type){
             return true;
