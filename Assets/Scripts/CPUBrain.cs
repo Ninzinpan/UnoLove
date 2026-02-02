@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 public class CPUBrain
 {
 
@@ -20,7 +21,7 @@ public async Task<CardView> SelectCard( List<CardView> cpuHand,List<CardView> pl
         }   
         foreach (var card in cpuHand)
         {
-            if (card.Data.Color == fieldCard.Data.Color || card.Data.Type == fieldCard.Data.Type)
+             if(card.Data.Color == fieldCard.Data.Color || card.Data.Type == fieldCard.Data.Type)
             {
                 Debug.Log($"CPUがカードを決定しました: {card.Data.name}");
                 return card;
@@ -32,10 +33,29 @@ public async Task<CardView> SelectCard( List<CardView> cpuHand,List<CardView> pl
         Debug.Log($"CPUがランダムにカードを選択しました: {cpuHand[index]}");
         return cpuHand[index];
 
-        
+    }
+public async Task<TurnManager.IfSelectContinue> DefineIfContinue( List<CardView> myHand,List<CardView> otherHand,CardView fieldCard)
+    {
+        return TurnManager.IfSelectContinue.Continue;
+    }
+    public bool IfCardMatch(CardView playCard, CardView nextCard)
+    {
+        if (playCard == null || nextCard == null)
+        {
+            Debug.LogWarning("カードが設定されていません。");
+            return false;
+        }
+        if (playCard.Data.Color == nextCard.Data.Color || playCard.Data.Type == nextCard.Data.Type){
+            return true;
+            
+        }
+        return false;
+    }
+
+
+    }
+
+
+
     
-
-    }
-
-    }
 

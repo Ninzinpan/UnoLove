@@ -485,8 +485,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DuelistManager
   deckManager: {fileID: 1767951249}
   handManager: {fileID: 309984517}
-  baseDeckData: {fileID: 11400000, guid: 777fbd32a62e342abaab35cd1412788b, type: 2}
-  initialHandCount: 3
+  baseDeckData: {fileID: 11400000, guid: b1c8cfffb2b79475d915c5cafe657e26, type: 2}
+  initialHandCount: 4
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -968,8 +968,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DuelistManager
   deckManager: {fileID: 433626585}
   handManager: {fileID: 2118727952}
-  baseDeckData: {fileID: 11400000, guid: 777fbd32a62e342abaab35cd1412788b, type: 2}
-  initialHandCount: 3
+  baseDeckData: {fileID: 11400000, guid: b1c8cfffb2b79475d915c5cafe657e26, type: 2}
+  initialHandCount: 4
 --- !u!4 &889339080
 Transform:
   m_ObjectHideFlags: 0

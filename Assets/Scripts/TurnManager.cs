@@ -56,13 +56,23 @@ private int targetScore = 500;
         End
 
     }
-    public enum GameEndState{
+
+        public enum GameEndState{
         Continue,
         Victory,
         Lose
         
     }
+
+    public enum IfSelectContinue
+    {
+        Continue,
+        Finish,
+        Eroor
+    }
     
+public record GameSnapShot(List<CardView> Player,List<CardView> cPUHand,FieldCardView fieldCard);
+
     async void Start()
     {
         player.OnCardPlayed = (card) => {_tcs?.TrySetResult(card);};
@@ -96,10 +106,11 @@ private async Task TurnSequence(DuelistManager duelist, WhoseTurn turn)
     {
         Debug.Log($"{turn}のターンが始まりました。{turnCount}ターン目");
 
+        await DrawPhase(duelist, turn);
+
         await SelectPhase(duelist, turn);
         await PlayPhase(duelist, turn);
         await CalculatePhase(duelist, turn);
-        await DrawPhase(duelist, turn);
 
 
         turnCount++;
@@ -190,6 +201,14 @@ private async Task TurnSequence(DuelistManager duelist, WhoseTurn turn)
         }
         var fieldCards = fieldManager.FieldCards;
         scoreManager.CalculateScore(fieldCards);
+        await Task.Delay(500);
+        return;
+
+    }
+
+    private async Task EndPhases(DuelistManager duelist, WhoseTurn turn)
+    {
+        Debug.Log($"{turn}のエンドフェイズがはじまりました。");
         await Task.Delay(500);
     }
 
