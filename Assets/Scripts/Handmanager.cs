@@ -7,18 +7,18 @@ using System.Runtime.CompilerServices;
 class HandManager : MonoBehaviour
 {
     [SerializeField]
-    private List<CardView> hand;
+    private List<BaseCardView> hand;
     [SerializeField]
     private GameObject cardPrehub;
     [SerializeField]
     private Transform handArea;
-    public List<CardView> Hand => hand;
+    public List<BaseCardView> Hand => hand;
     void Awake()
     {
-        hand = new List<CardView>();
+        hand = new List<BaseCardView>();
     }
 
-    public async Task AddCard(CardData card, Action<CardView> onClick,bool animation =false)
+    public async Task AddCard(CardData card, Action<BaseCardView> onClick,bool animation =false)
     {
         if (card == null)
         {
@@ -26,7 +26,7 @@ class HandManager : MonoBehaviour
             return;
         }
         GameObject cardView = Instantiate(cardPrehub,handArea);
-        CardView view = cardView.GetComponent<CardView>();
+        BaseCardView view = cardView.GetComponent<BaseCardView>();
         if (view == null)
         {
             Debug.LogError("HandManager:CardViewコンポーネントが見つかりません。");
@@ -69,7 +69,7 @@ class HandManager : MonoBehaviour
             }
         return true;
     }
-public bool RemoveCard(CardView card)
+public bool RemoveCard(BaseCardView card)
     {
         if (card == null)
         {

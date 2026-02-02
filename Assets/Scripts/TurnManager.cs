@@ -43,8 +43,8 @@ private int targetScore = 500;
 
     public static event System.Action<GameEndState> OnGameFinished;
 
-    private TaskCompletionSource<CardView> _tcs;
-    private CardView _selectedCard;
+    private TaskCompletionSource<BaseCardView> _tcs;
+    private BaseCardView _selectedCard;
 
 
     public enum TurnPhase
@@ -71,7 +71,7 @@ private int targetScore = 500;
         Eroor
     }
     
-public record GameSnapShot(List<CardView> Player,List<CardView> cPUHand,FieldCardView fieldCard);
+public record GameSnapShot(List<BaseCardView> Player,List<BaseCardView> cPUHand,BaseCardView fieldCard);
 
     async void Start()
     {
@@ -140,7 +140,7 @@ private async Task TurnSequence(DuelistManager duelist, WhoseTurn turn)
         Debug.Log($"{turn}のセレクトフェイズが始まりました。");
         SetPlayerInputEnabled(turn == WhoseTurn.Player);
         if (turn == WhoseTurn.Player){
-        _tcs = new TaskCompletionSource<CardView>();
+        _tcs = new TaskCompletionSource<BaseCardView>();
         _selectedCard = await _tcs.Task;
         }
         else

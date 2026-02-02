@@ -11,7 +11,7 @@ public abstract class BaseCardView : MonoBehaviour
     protected Button cardButton;
 
     public CardData Data {get; protected set;}
-    private Action<CardView> onClickAction;
+    protected Action<BaseCardView> onClickAction;
 
 
 public void SetUp(CardData data, Action<BaseCardView> onClick)

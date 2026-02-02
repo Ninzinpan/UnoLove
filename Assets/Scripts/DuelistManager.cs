@@ -23,7 +23,7 @@ class  DuelistManager : MonoBehaviour
     public HandManager HandManager => handManager;
 
     public List<CardData> StartingDeck{get; private set;} = new List<CardData>();
-    public  Action<CardView> OnCardPlayed;
+    public  Action<BaseCardView> OnCardPlayed;
     private CPUBrain cPUBrain;
 
     private void Awake()
@@ -90,13 +90,13 @@ class  DuelistManager : MonoBehaviour
             }
         }
     }
-private void HandleCardPlayed(CardView card)
+private void HandleCardPlayed(BaseCardView card)
     {
         OnCardPlayed?.Invoke(card);
     }
     
     
-    public void DiscardCardFromHand(CardView card)
+    public void DiscardCardFromHand(BaseCardView card)
     {
         if (handManager.RemoveCard(card))
         {
@@ -105,7 +105,7 @@ private void HandleCardPlayed(CardView card)
         }
 
     }
-    public async Task<CardView> CPUSelectCard(List<CardView> playerhand ,FieldCardView fieldCard)
+    public async Task<BaseCardView> CPUSelectCard(List<BaseCardView> playerhand ,BaseCardView fieldCard)
     {
         if (cPUBrain == null)
         {
@@ -119,7 +119,7 @@ private void HandleCardPlayed(CardView card)
     {
         return true;
     }
-        public async Task<TurnManager.IfSelectContinue> CheckifComboEnd(List<CardView> myHand ,List<CardView> otherHand ,CardView fieldCard)
+        public async Task<TurnManager.IfSelectContinue> CheckifComboEnd(List<BaseCardView> myHand ,List<BaseCardView> otherHand ,BaseCardView fieldCard)
     {
         
         return TurnManager.IfSelectContinue.Continue;
