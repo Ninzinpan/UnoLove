@@ -71,14 +71,18 @@ private int targetScore = 500;
         Hold,
         Continue,
         Finish,
-        Eroor
+        Error
     }
     
 
     async void Start()
     {
-        player.OnCardPlayed = (card) => {_tcs?.TrySetResult(card);};
+        player.OnCardPlayed += OnPlayerPlayCard;
         await MainGameloop();
+    }
+private void OnPlayerPlayCard(BaseCardView card)
+    {
+        _tcs?.TrySetResult(card);
     }
 
 private async Task MainGameloop()
@@ -87,15 +91,16 @@ private async Task MainGameloop()
         gameEndState = GameEndState.Continue;
        player.InitializeDuelist();
         opponent.InitializeDuelist();
+        fieldManager.Initialieze();
 
         while (true){
         Debug.Log("新たなセッションを開始します。");
-        for(var i  = 0;player.HandManager.Hand.Count< player.InitialHandCount; i++)
+        while (player.HandManager.Hand.Count < player.InitialHandCount)            
             {
                 if (player.HandManager.Hand.Count >= player.InitialHandCount) break;
                 await player.DrawCardtoHand(1);
             }
-        for(var i  = 0;opponent.HandManager.Hand.Count< opponent.InitialHandCount; i++)
+            while (opponent.HandManager.Hand.Count < opponent.InitialHandCount)            
             {
                 if (opponent.HandManager.Hand.Count >= opponent.InitialHandCount) break;
                 await opponent.DrawCardtoHand(1);
@@ -106,6 +111,7 @@ private async Task MainGameloop()
         
         check_game_end();
         fieldManager.ResetFieldCard();
+        scoreManager.ResetCurrentTopic();
 
 
 
@@ -196,27 +202,68 @@ private async Task TurnSequence(DuelistManager duelist, WhoseTurn turn)
         Debug.Log($"{turn}のセレクトフェイズが始まりました。");
         SetPlayerInputEnabled(turn == WhoseTurn.Player);
         if (turn == WhoseTurn.Player){
-        _tcs = new TaskCompletionSource<BaseCardView>();
+
+        _selectedCard = await PlayerSelectCard();
+
+
         _selectedCard = await _tcs.Task;
+        
         }
         else
         {
             var playerHandManager = player.HandManager;
             _selectedCard = await duelist.CPUSelectCard(playerHandManager.Hand,  fieldManager.CurrentFieldCardView);
         }
-        _tcs = null;
         if (_selectedCard == null)
         {
             Debug.LogWarning($"{turn}がカードを選択できませんでした。");
             return;
         }
         Debug.Log($"{turn}がカードを選択しました: {_selectedCard.Data.name}");
-
+        if (fieldManager.CurrentFieldCardView.Data.Type == CardType.Base)
+        {
+            scoreManager.SetPlayedTopic(_selectedCard.Data.Type);
+        }
         SetPlayerInputEnabled(false);
         await Task.Delay(500); // 少し待つ
 
 
     }
+private async Task<BaseCardView> PlayerSelectCard()
+    {
+while (true)
+            {
+                // 1. 新しい「待ち受け」を作る
+                _tcs = new TaskCompletionSource<BaseCardView>();
+
+                // 2. プレイヤーの入力を待つ
+                Debug.Log("カードを選択してください...");
+                var tempSelectedCard = await _tcs.Task;
+
+                // 3. ルール判定 (バリデーション)
+                // フィールドのカード情報を取得 (初回などでnullの場合は通す、などの処理も可)
+                var currentFieldCard = fieldManager.CurrentFieldCardView?.Data;
+                var cPUBrain =new CPUBrain();
+                if (currentFieldCard.Type == CardType.Base && tempSelectedCard != null)
+                {
+                    // OKなら採用してループを抜ける
+                    Debug.Log("有効な最初のカードが選択されました。");
+                    return tempSelectedCard;
+                }
+                if (cPUBrain.CheckIfCardMatch(tempSelectedCard, fieldManager.CurrentFieldCardView))
+            {
+                    // OKなら採用してループを抜ける
+                    Debug.Log("選択されたカードがフィールドカードとマッチしました。有効なカードです。");
+                    return tempSelectedCard;
+            }
+                else
+                {
+                    // NGなら再度選択を促す
+                    Debug.Log("選択されたカードがフィールドカードとマッチしません。再度選択を待ちます。");
+                }
+    }
+    }
+
 
 
     private async Task PlayPhase(DuelistManager duelist, WhoseTurn turn)
@@ -312,5 +359,9 @@ private async Task TurnSequence(DuelistManager duelist, WhoseTurn turn)
         {
             Debug.LogWarning("CanvasGroupが割り当てられていません。");
         }
+    }
+    private void OnDestroy()
+    {
+        player.OnCardPlayed -= OnPlayerPlayCard;
     }
 }

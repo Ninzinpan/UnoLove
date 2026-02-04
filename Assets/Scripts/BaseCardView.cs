@@ -25,7 +25,16 @@ public void SetUp(CardData data, Action<BaseCardView> onClick)
         if (cardImage != null  && Data.CardImage != null)
         {
             cardImage.sprite = Data.CardImage;
-            cardButton.onClick.AddListener(() => {onClick?.Invoke(this);});
+        }
+        if (cardButton != null && onClick != null)
+        {
+            onClickAction = onClick;
+            cardButton.onClick.AddListener(() => onClickAction?.Invoke(this));
+            
+        }
+        else
+        {
+            Debug.LogWarning("CardView:カードのクリックアクションが設定されていません。");
         }
 
     }

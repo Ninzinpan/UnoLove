@@ -16,7 +16,8 @@ public enum CardType
     Square,
     Triangle,
     Star,
-    NoneShape
+    NoneShape,
+    Base
 }
 
 [CreateAssetMenu(fileName = "NewCard", menuName = "UnoLovePrototype/CardData")]

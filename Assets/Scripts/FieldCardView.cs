@@ -21,10 +21,7 @@ public class FieldCardView : BaseCardView
             Debug.Log($"フィールドカードの画像を更新しました: {data.name}");
         }        }
     }
-    public void ResetCardView()
-    {
-        UpdateFieldCard(null);
-    }
+
 
 
 

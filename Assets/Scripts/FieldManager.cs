@@ -10,6 +10,9 @@ public class FieldManager : MonoBehaviour
 {
     [SerializeField]
     private FieldCardView fieldCardView;
+    [SerializeField]
+    private CardData baseFieldCardData;
+
 
     private List<CardData> fieldCards = new List<CardData>();
 
@@ -25,7 +28,7 @@ public class FieldManager : MonoBehaviour
     public void Initialieze()
     {
         fieldCards.Clear();
-        ResetFieldCard();
+        fieldCardView.SetUp(baseFieldCardData, null);
     }
 
     // Update is called once per frame
@@ -45,9 +48,9 @@ public class FieldManager : MonoBehaviour
 
     public void ResetFieldCard()
     {
-        fieldCards.Clear();
-        fieldCardView.ResetCardView();
 
+        fieldCards.Clear();
+        fieldCardView.SetUp(baseFieldCardData, null);
     }
     
         
