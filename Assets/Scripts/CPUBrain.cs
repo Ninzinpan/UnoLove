@@ -46,7 +46,7 @@ public async Task<TurnManager.SelectContinueState> DefineIfContinue( List<BaseCa
             Debug.LogWarning("fielidCardを参照できません");
             return TurnManager.SelectContinueState.Error;
         }
-        if (fieldCard.Data.Type== CardType.Base)
+        if (fieldCard.Data.Type== CardType.None)
         {
             Debug.Log("最初のfieldCardです。");
             return TurnManager.SelectContinueState.Continue;

@@ -22,6 +22,10 @@ public class TurnManager : MonoBehaviour
     private FieldManager fieldManager;
         [SerializeField]
     private ScoreManager scoreManager;
+    [SerializeField]
+    private ChatController chatController;
+    [SerializeField]
+    private ChatScenario testScenario;
 
 [SerializeField]
 private int turnCount = 1;
@@ -92,6 +96,11 @@ private async Task MainGameloop()
        player.InitializeDuelist();
         opponent.InitializeDuelist();
         fieldManager.Initialieze();
+        Debug.Log("chatテスト。");
+        await chatController.RequestChat(testScenario);
+        Debug.Log("chatテスト終了。");
+
+
 
         while (true){
         Debug.Log("新たなセッションを開始します。");
@@ -112,9 +121,6 @@ private async Task MainGameloop()
         check_game_end();
         fieldManager.ResetFieldCard();
         scoreManager.ResetCurrentTopic();
-
-
-
 
         if (gameEndState != GameEndState.Continue)
             {
@@ -137,13 +143,22 @@ private async Task<(SelectContinueState selectContinueState,WhoseTurn turn)> Com
 
         await TurnSequence(player, WhoseTurn.Player);
 
+        
+        if (gameEndState != GameEndState.Continue)
+            {
+                return (SelectContinueState.Finish,WhoseTurn.Player);
+            }
+
         if (await opponent.CPUGetIfSessionContinued(fieldManager.CurrentFieldCardView) == SelectContinueState.Finish)
             {
                 Debug.Log("Opponentの出せるカードがありません。コンボを終了します。");
                 return (SelectContinueState.Finish,WhoseTurn.Opponent);
             }
         await TurnSequence(opponent, WhoseTurn.Opponent);
-
+        if (gameEndState != GameEndState.Continue)
+            {
+                return (SelectContinueState.Finish,WhoseTurn.Player);
+            }
 
 
         }
@@ -220,7 +235,7 @@ private async Task TurnSequence(DuelistManager duelist, WhoseTurn turn)
             return;
         }
         Debug.Log($"{turn}がカードを選択しました: {_selectedCard.Data.name}");
-        if (fieldManager.CurrentFieldCardView.Data.Type == CardType.Base)
+        if (fieldManager.CurrentFieldCardView.Data.Type == CardType.None)
         {
             scoreManager.SetPlayedTopic(_selectedCard.Data.Type);
         }
@@ -244,7 +259,7 @@ while (true)
                 // フィールドのカード情報を取得 (初回などでnullの場合は通す、などの処理も可)
                 var currentFieldCard = fieldManager.CurrentFieldCardView?.Data;
                 var cPUBrain =new CPUBrain();
-                if (currentFieldCard.Type == CardType.Base && tempSelectedCard != null)
+                if (currentFieldCard.Type == CardType.None && tempSelectedCard != null)
                 {
                     // OKなら採用してループを抜ける
                     Debug.Log("有効な最初のカードが選択されました。");
