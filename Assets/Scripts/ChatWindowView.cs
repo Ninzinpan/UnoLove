@@ -5,15 +5,17 @@ using System.Collections;
 public class ChatWindowView : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private GameObject chatBubblePrefab; // ChatBubbleViewがついたプレハブ
-    [SerializeField] private Transform contentArea;       // ScrollViewのContent
-    [SerializeField] private ScrollRect scrollRect;       // スクロール制御用
+    [SerializeField] private GameObject chatBubblePrefab; 
+    [SerializeField] private Transform contentArea;       
+    [SerializeField] private ScrollRect scrollRect;       
 
-    // 外部から呼ばれる: メッセージを追加
     public void AddMessage(ChatMessage message)
     {
         // プレハブを生成
         GameObject obj = Instantiate(chatBubblePrefab, contentArea);
+        
+        // ★変更点: 最新のメッセージをリストの一番上（ヒエラルキーの先頭）に移動させる
+        obj.transform.SetAsFirstSibling();
         
         // セットアップ
         ChatBubbleView bubble = obj.GetComponent<ChatBubbleView>();
@@ -21,33 +23,28 @@ public class ChatWindowView : MonoBehaviour
         {
             bubble.SetUp(message);
         }
+
+        // 追加したら自動スクロール
+        AutoScroll();
     }
 
-    // 外部から呼ばれる: 自動スクロール
     public void AutoScroll()
     {
-        // UIのレイアウト更新を待ってからスクロールするためにコルーチンを使用
-        StartCoroutine(ScrollToBottom());
+        StartCoroutine(ScrollToTop());
     }
 
-    private IEnumerator ScrollToBottom()
+    private IEnumerator ScrollToTop()
     {
-        // 1フレーム待って、UIのサイズ計算が終わるのを待つ
+        // レイアウト更新待ち
         yield return new WaitForEndOfFrame();
-
-        // Canvasの更新を強制（念のため）
         Canvas.ForceUpdateCanvases();
 
-        // 一番下（0）へスクロール
-        scrollRect.verticalNormalizedPosition = 0f;
+        // ★変更点: 一番上（1.0）へスクロール
+        scrollRect.verticalNormalizedPosition = 1f;
     }
 
-    // ウィンドウの表示切り替え
     public void SetWindowActive(bool isActive)
     {
         gameObject.SetActive(isActive);
-        
-        // 非表示にする時に中身をクリアするかは仕様次第（今回は残す）
-        // if (!isActive) ClearMessages(); 
     }
 }

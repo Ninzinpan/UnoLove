@@ -23,9 +23,10 @@ public class TurnManager : MonoBehaviour
         [SerializeField]
     private ScoreManager scoreManager;
     [SerializeField]
-    private ChatController chatController;
+    private ChatTopicManager chatTopicManager;
     [SerializeField]
-    private ChatScenario testScenario;
+    private ScenarioStep testStep1;
+
 
 [SerializeField]
 private int turnCount = 1;
@@ -93,13 +94,13 @@ private async Task MainGameloop()
     
     {
         gameEndState = GameEndState.Continue;
+
+
        player.InitializeDuelist();
         opponent.InitializeDuelist();
         fieldManager.Initialieze();
-        Debug.Log("chatテスト。");
-        await chatController.RequestChat(testScenario);
-        Debug.Log("chatテスト終了。");
-
+        chatTopicManager.InitializeTopic(chatTopicManager.CurrentTopic);
+        Debug.Log("chatTestを開始します。");
 
 
         while (true){
