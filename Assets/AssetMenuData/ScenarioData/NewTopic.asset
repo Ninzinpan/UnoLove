@@ -12,6 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: NewTopic
   m_EditorClassIdentifier: Assembly-CSharp::TopicScenario
-  TopicId: 
-  Steps: []
+  TopicId: 2345
+  Steps:
+  - IsPlayer: 1
+    WaitForInput: 1
+    AutoDelay: 0
+    Branches:
+    - TargetColor: 5
+      Text: "\u304A\u308C\u306F\u3059\u3054\u3044\u3084\u308B\u3060\u3002\u304A\u308C\u306F\u3059\u3054\u3044\u3084\u308B\u3060\u3002\u304A\u308C\u306F\u3059\u3054\u3044\u3084\u308B\u3060\u3002\u304A\u308C\u306F\u3059\u3054\u3044\u3084\u308B\u3060\u3002\u304A\u308C\u306F\u3059\u3054\u3044\u3084\u308B\u3060\u3002"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+  - IsPlayer: 0
+    WaitForInput: 1
+    AutoDelay: 0
+    Branches:
+    - TargetColor: 5
+      Text: "\u3055\u308B\u3060\u3002"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
   BreakSteps: []

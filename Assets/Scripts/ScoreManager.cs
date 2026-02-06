@@ -38,6 +38,9 @@ public class ScoreManager : MonoBehaviour
 
     // 現在進行中の話題データへの参照
     private TopicStatus currentTopicStatus = null;
+
+        private CardData firstCard = null;
+
     // --------------------------------
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -57,6 +60,7 @@ public class ScoreManager : MonoBehaviour
         currentComboCount = 0;
         finalScore = 0;
         ResetCurrentTopic();
+        firstCard = null;
     }
 
     public void CalculateScore(List<CardData> fielddatas)
@@ -69,6 +73,7 @@ public class ScoreManager : MonoBehaviour
         }
         if (fielddatas.Count == 1)
         {
+            firstCard = fielddatas[0];
             currentComboCount = 0;
             finalScore = baseScorePerCard;
             
