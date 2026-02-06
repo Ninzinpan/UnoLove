@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 using System.Collections;
 
 public class ChatWindowView : MonoBehaviour
@@ -9,23 +10,31 @@ public class ChatWindowView : MonoBehaviour
     [SerializeField] private Transform contentArea;       
     [SerializeField] private ScrollRect scrollRect;       
 
-    public void AddMessage(ChatMessage message)
+    // クリックされたことを通知するイベント
+    public event Action OnScreenClick;
+
+    public void AddMessage(ChatSequenceData data)
     {
-        // プレハブを生成
         GameObject obj = Instantiate(chatBubblePrefab, contentArea);
         
-        // ★変更点: 最新のメッセージをリストの一番上（ヒエラルキーの先頭）に移動させる
+        // 最新を一番上に表示
         obj.transform.SetAsFirstSibling();
         
-        // セットアップ
         ChatBubbleView bubble = obj.GetComponent<ChatBubbleView>();
         if (bubble != null)
         {
-            bubble.SetUp(message);
+            // 変更点: 変換せずに data をそのまま渡す
+            bubble.SetUp(data);
         }
 
-        // 追加したら自動スクロール
         AutoScroll();
+    }
+
+    // UIの透明ボタンなどから呼ぶ
+    public void OnChatWindowClicked()
+    {
+        Debug.Log("スクリーンボタンが押されました。");
+        OnScreenClick?.Invoke();
     }
 
     public void AutoScroll()
@@ -35,16 +44,9 @@ public class ChatWindowView : MonoBehaviour
 
     private IEnumerator ScrollToTop()
     {
-        // レイアウト更新待ち
         yield return new WaitForEndOfFrame();
         Canvas.ForceUpdateCanvases();
-
-        // ★変更点: 一番上（1.0）へスクロール
-        scrollRect.verticalNormalizedPosition = 1f;
-    }
-
-    public void SetWindowActive(bool isActive)
-    {
-        gameObject.SetActive(isActive);
+        // 上方向へスクロール
+        scrollRect.verticalNormalizedPosition = 1f; 
     }
 }

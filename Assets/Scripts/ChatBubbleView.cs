@@ -13,17 +13,19 @@ public class ChatBubbleView : MonoBehaviour
     [SerializeField] private Color playerBubbleColor = new Color(0.8f, 1f, 0.8f);
     [SerializeField] private Color opponentBubbleColor = Color.white;
 
-    public void SetUp(ChatMessage message)
+    // 変更点: 引数を ChatSequenceData に変更
+    public void SetUp(ChatSequenceData data)
     {
         // 1. テキスト設定
-        messageText.text = message.MessageText;
-        messageText.color = message.TextColor; // 文字色適用
+        messageText.text = data.Text;
+        messageText.color = data.TextColor; 
 
-        // 2. 配置と色の切り替え (IsPlayerフラグを使用)
-        UpdateLayout(message.IsPlayer);
+        // 2. 配置と色の切り替え
+        UpdateLayout(data.IsPlayer);
         
-        // 3. 相手の表情変更 (Face) の処理が必要ならここに記述
-        // 例: GameManager.Instance.SetHeroineFace(message.Face);
+        // 3. 表情の処理 (必要に応じて実装)
+        // 例: data.Face を使って立ち絵の表情を変えるイベントを発火するなど
+        // if (!data.IsPlayer) { ... }
     }
 
     private void UpdateLayout(bool isPlayer)
@@ -32,6 +34,7 @@ public class ChatBubbleView : MonoBehaviour
         {
             // プレイヤー（右側）
             layoutGroup.childAlignment = TextAnchor.MiddleRight;
+            // アイコン等の順序反転が必要な場合はここで reverseArrangement = true 等
             bubbleBackground.color = playerBubbleColor;
         }
         else

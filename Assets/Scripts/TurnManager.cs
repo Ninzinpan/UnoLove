@@ -23,9 +23,9 @@ public class TurnManager : MonoBehaviour
         [SerializeField]
     private ScoreManager scoreManager;
     [SerializeField]
-    private ChatTopicManager chatTopicManager;
+    private ComboChatManager comboChatManager;
     [SerializeField]
-    private ScenarioStep testStep1;
+    private StoryManager storyManager;
 
 
 [SerializeField]
@@ -99,8 +99,7 @@ private async Task MainGameloop()
        player.InitializeDuelist();
         opponent.InitializeDuelist();
         fieldManager.Initialieze();
-        chatTopicManager.InitializeTopic(chatTopicManager.CurrentTopic);
-        Debug.Log("chatTestを開始します。");
+        await storyManager.TestPlayAll();
 
 
         while (true){
