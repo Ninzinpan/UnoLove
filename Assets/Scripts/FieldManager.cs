@@ -1,7 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Mono.Cecil;
 
 public class FieldManager : MonoBehaviour
 

@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1c385baa14d74e49a6ce5e3f5fd8855, type: 3}
   m_Name: Session1
   m_EditorClassIdentifier: Assembly-CSharp::SessionScenarioProfile
-  CircleScenario: {fileID: 0}
-  SquareScenario: {fileID: 0}
-  TriangleScenario: {fileID: 0}
-  BonusColor: 0
-  BonusEventID: 0
+  CircleScenario: {fileID: 11400000, guid: 436653658301942278228ff647493859, type: 2}
+  SquareScenario: {fileID: 11400000, guid: cefcf4dd2abd54a37bcbfa336e79d35c, type: 2}
+  TriangleScenario: {fileID: 11400000, guid: 35db3137d01ec445ca9641c68efe2f02, type: 2}
+  BonusColor: 1
+  BonusEventID: 5

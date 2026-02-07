@@ -2,7 +2,6 @@ using UnityEngine;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine.Rendering;
-using Mono.Cecil.Cil;
 
 public enum WhoseTurn
     {
@@ -55,6 +54,8 @@ private int targetScore = 500;
     private BaseCardView _selectedCard;
     private CardData _currentTopicData;
 
+    private int currentSession;
+
 
     public enum TurnPhase
     {
@@ -103,11 +104,13 @@ private async Task MainGameloop()
         opponent.InitializeDuelist();
         fieldManager.Initialieze();
         _currentTopicData = null;
+        currentSession = 0;
 
         await storyManager.CheckAndPlay(StoryTrigger.GameStart, CreateSnapshot(false));
 
         while (true){
         Debug.Log("新たなセッションを開始します。");
+        currentSession++;
         while (player.HandManager.Hand.Count < player.InitialHandCount)            
             {
                 if (player.HandManager.Hand.Count >= player.InitialHandCount) break;
@@ -168,6 +171,7 @@ private async Task OnComboBreak(WhoseTurn turn)
         scoreManager.Initialieze();
         _currentTopicData = null;
         lastPlayedColor = CardColor.None; // リセット
+        
     }
 private async Task<(SelectContinueState selectContinueState,WhoseTurn turn)> ComboLoop(DuelistManager player,DuelistManager opponent)
     {
@@ -178,6 +182,9 @@ private async Task<(SelectContinueState selectContinueState,WhoseTurn turn)> Com
                 Debug.Log("Playerの出せるカードがありません。コンボを終了します。");
                 return (SelectContinueState.Finish,WhoseTurn.Player);
             }
+        
+
+     
 
         await TurnSequence(player, WhoseTurn.Player);
 
@@ -186,6 +193,12 @@ private async Task<(SelectContinueState selectContinueState,WhoseTurn turn)> Com
             {
                 return (SelectContinueState.Finish,WhoseTurn.Player);
             }
+        if (scoreManager.CurrentComboCount >= 5)
+            {
+                Debug.Log("Playerのコンボ上限です。コンボを終了します。");
+                return (SelectContinueState.Finish,WhoseTurn.Player);
+            }
+
 
         if (await opponent.CPUGetIfSessionContinued(fieldManager.CurrentFieldCardView) == SelectContinueState.Finish)
             {
@@ -195,6 +208,11 @@ private async Task<(SelectContinueState selectContinueState,WhoseTurn turn)> Com
         await TurnSequence(opponent, WhoseTurn.Opponent);
         if (gameEndState != GameEndState.Continue)
             {
+                return (SelectContinueState.Finish,WhoseTurn.Player);
+            }
+        if (scoreManager.CurrentComboCount >= 5)
+            {
+                Debug.Log("Opponentのコンボ上限です。コンボを終了します。");
                 return (SelectContinueState.Finish,WhoseTurn.Player);
             }
 
@@ -430,8 +448,10 @@ while (true)
 
         return new GameStateSnapshot(
             score: scoreManager.CurrentScore, // ※ScoreManagerにCurrentScoreプロパティが必要
+            targetScore: this.targetScore, // ★追加: 自身のtargetScoreを渡す
             combo: currentCombo,
             turn: turnCount,
+            session:currentSession,
             remain: limitTurn - turnCount,
             topicId: topicId,
             isActive: _currentTopicData != null,

@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76a235050b965420a94a095648c65048, type: 3}
+  m_Name: MainStory_Step3
+  m_EditorClassIdentifier: Assembly-CSharp::TopicScenario
+  TopicId: MainStory_Step3
+  Steps:
+  - IsPlayer: 1
+    WaitForInput: 1
+    AutoDelay: 1
+    Branches:
+    - TargetColor: 5
+      Text: "\u5148\u8F29\u306E\u7B11\u9854\u3092\u898B\u308B\u305F\u3073\u306B\u3001\u80F8\u304C\u75DB\u304F\u306A\u308B\u3002"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 5
+  - IsPlayer: 1
+    WaitForInput: 1
+    AutoDelay: 1
+    Branches:
+    - TargetColor: 5
+      Text: "\u30D0\u30F3\u30C9\u30DE\u30F3\u306E\u50D5\u3082\u3001\u30EA\u30A2\u5145\u306A\u50D5\u3082\u3001\u5168\u90E8\u507D\u7269\u3060\u3002"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 3
+  - IsPlayer: 1
+    WaitForInput: 1
+    AutoDelay: 1
+    Branches:
+    - TargetColor: 5
+      Text: "\u3067\u3082\u3001\u3055\u3063\u304D\u306E\u30A2\u30CB\u30E1\u306E\u8A71\u3092\u3057\u305F\u6642\u3060\u3051\u306F\u3001\u672C\u5F53\u306E\u8A00\u8449\u304C\u51FA\u305F\u6C17\u304C\u3059\u308B\u3002"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+  - IsPlayer: 1
+    WaitForInput: 1
+    AutoDelay: 1
+    Branches:
+    - TargetColor: 5
+      Text: "\u5148\u8F29\u306F\u3001\u5F15\u3044\u3066\u306A\u304B\u3063\u305F\u3002\u3080\u3057\u308D\u3001\u5C11\u3057\u5B09\u3057\u305D\u3046\u306B\u898B\u3048\u305F\u306E\u306F\u6C17\u306E\u305B\u3044\u304B\uFF1F"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+  - IsPlayer: 1
+    WaitForInput: 1
+    AutoDelay: 1
+    Branches:
+    - TargetColor: 5
+      Text: "\u3082\u3046\u3001\u5618\u3092\u3064\u304F\u306E\u306F\u3084\u3081\u3088\u3046\u3002\u5ACC\u308F\u308C\u308B\u3068\u3057\u3066\u3082\u3001\u672C\u5F53\u306E\u81EA\u5206\u3067\u3076\u3064\u304B\u308A\u305F\u3044\u3002"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+  BreakSteps: []

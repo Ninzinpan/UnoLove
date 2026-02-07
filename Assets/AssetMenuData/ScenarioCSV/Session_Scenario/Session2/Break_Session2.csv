@@ -1,0 +1,5 @@
+IsPlayer,Timing,Any,Face_Any,Red,Face_Red,Green,Face_Green,Blue,Face_Blue
+t,t,"（しまった…！ 調子に乗って変なこと言いすぎた…！ 引かれたか！？）",,,,,,,,
+f,t,"「ぷっ……あははは！」",Laugh,,,,,,
+t,t,"「えっ？ せ、先輩？」",,,,,,,,
+f,t,"「ごめんごめん。遷宮寺くんって、面白いね。なんか緊張ほぐれたかも。」",Smile,,,,,,

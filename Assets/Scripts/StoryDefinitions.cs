@@ -31,6 +31,11 @@ public enum StoryEventID
     Bonus_Session3,
     Bonus_Session4,
     Bonus_Session5,
+    MainStory_Step1, // 20%
+    MainStory_Step2, // 40%
+    MainStory_Step3, // 60%
+    MainStory_Step4, // 80%
+    MainStory_Step5,  // 100% (or Clear)
 
     // --- 終了系 ---
     Game_Victory,        // クリア
@@ -42,8 +47,11 @@ public enum StoryEventID
 public class GameStateSnapshot
 {
     public int CurrentScore;
+    public int TargetScore; // ★追加: 目標スコア
     public int CurrentCombo;
     public int TurnCount;
+
+    public int CurrentSession;
     public int RemainingTurns;
     public string CurrentTopicId; // CardTypeを文字列化して保持
     public bool IsComboActive;
@@ -51,11 +59,13 @@ public class GameStateSnapshot
     public int CurrentSessionIndex; // 現在何回戦目か (0始まり)
     public bool IsBonusHit;         // 直前のプレイでボーナス色を当てたか
 
-    public GameStateSnapshot(int score, int combo, int turn, int remain, string topicId, bool isActive,int sessionIndex, bool isBonus)
+    public GameStateSnapshot(int score,int targetScore, int combo, int turn,int session, int remain, string topicId, bool isActive,int sessionIndex, bool isBonus)
     {
         CurrentScore = score;
+        TargetScore = targetScore; // ★代入
         CurrentCombo = combo;
         TurnCount = turn;
+        CurrentSession = session;
         RemainingTurns = remain;
         CurrentTopicId = topicId;
         IsComboActive = isActive;

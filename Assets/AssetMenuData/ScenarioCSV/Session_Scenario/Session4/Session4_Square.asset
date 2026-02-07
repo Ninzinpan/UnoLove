@@ -1,0 +1,116 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76a235050b965420a94a095648c65048, type: 3}
+  m_Name: Session4_Square
+  m_EditorClassIdentifier: Assembly-CSharp::TopicScenario
+  TopicId: Session4_Square
+  Steps:
+  - IsPlayer: 1
+    WaitForInput: 1
+    AutoDelay: 1
+    Branches:
+    - TargetColor: 0
+      Text: "\u770B\u677F\u306E\u5857\u88C5\u3001\u30A6\u30A7\u30B6\u30EA\u30F3\u30B0\u3057\u307E\u3057\u3087\u3046\u3002\u6B74\u6226\u306E\u50B7\u8DE1\u3092\u523B\u3080\u3093\u3067\u3059\u3002"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+    - TargetColor: 1
+      Text: "\u8863\u88C5\u62C5\u5F53\u304C\u8DB3\u308A\u306A\u3044\u306A\u3089\u50D5\u304C\u3084\u308A\u307E\u3059\u3002\u5E03\u306E\u30C9\u30EC\u30FC\u30D7\u306B\u306F\u81EA\u4FE1\u304C\u3002"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+    - TargetColor: 2
+      Text: "\u6BB5\u30DC\u30FC\u30EB\u3067\u30D1\u30EF\u30FC\u30C9\u30B9\u30FC\u30C4\u4F5C\u308C\u307E\u305B\u3093\u304B\uFF1F
+        \u4E88\u7B97300\u5186\u3067\u3002"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+  - IsPlayer: 0
+    WaitForInput: 1
+    AutoDelay: 1
+    Branches:
+    - TargetColor: 0
+      Text: "\u30A6\u30A7\u30B6\u30EA\u30F3\u30B0\u2026\u6C5A\u3057\u5857\u88C5\u3060\u3088\u306D\uFF1F
+        \u30C9\u30E9\u30A4\u30D6\u30E9\u30B7\u6D3E\uFF1F \u30C1\u30C3\u30D4\u30F3\u30B0\u6D3E\uFF1F"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 2
+    - TargetColor: 1
+      Text: "\u30C9\u30EC\u30FC\u30D7\u306B\u3053\u3060\u308F\u308B\u7537\u5B50\u2026\uFF01
+        \u541B\u3001\u30EC\u30A4\u30E4\u30FC\u306E\u7D20\u8CEA\u3042\u308B\u3088\u3002"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 2
+    - TargetColor: 2
+      Text: "300\u5186\u304B\u3041\u3002\u30E9\u30A4\u30AA\u30F3\u30DC\u30FC\u30C9\u4F7F\u3048\u306A\u3044\u306D\u2026\u65B0\u805E\u7D19\u3068\u7CCA\u3067\u3044\u304F\uFF1F"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 6
+  - IsPlayer: 1
+    WaitForInput: 1
+    AutoDelay: 1
+    Branches:
+    - TargetColor: 0
+      Text: "\u305B\u3001\u5148\u8F29\uFF01\uFF1F \u306A\u3093\u3067\u305D\u3093\u306A\u5C02\u9580\u7528\u8A9E\u3092\u2026\u307E\u3055\u304B\u3001\u305D\u3063\u3061\u306E\u4EBA\uFF01\uFF1F"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+    - TargetColor: 1
+      Text: "\u305F\u3060\u306E\u62D8\u308A\u3067\u3059\u3002\u4E8C\u6B21\u5143\u306E\u670D\u306E\u7269\u7406\u6F14\u7B97\u3092\u518D\u73FE\u3057\u305F\u304F\u3066\u3002"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+    - TargetColor: 2
+      Text: "\"\u65B0\u805E\u7D19\"\u306E\u5F37\u5EA6\u3092\u4FAE\u3063\u3066\u306F\u3044\u3051\u307E\u305B\u3093\u3002\u30DF\u30EB\u30D5\u30A3\u30FC\u30E6\u69CB\u9020\u306A\u3089\u9244\u3088\u308A\u786C\u3044\u3002"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+  - IsPlayer: 0
+    WaitForInput: 1
+    AutoDelay: 1
+    Branches:
+    - TargetColor: 0
+      Text: "\u3042\u2026\u3002\u6614\u3001\u305D\u306E\u2026\u8863\u88C5\u3068\u304B\u3001\u4F5C\u3063\u3066\u305F\u304B\u3089\u3002\u2026\u3061\u3087\u3063\u3068\u3060\u3051\u306D\u3002"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 7
+    - TargetColor: 1
+      Text: "\u7269\u7406\u6F14\u7B97\u306E\u518D\u73FE\u2026\uFF01 \u305D\u306E\u8A00\u8449\u3001\u4E45\u3057\u3076\u308A\u306B\u805E\u3044\u305F\u306A\u3041\u3002"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 1
+    - TargetColor: 2
+      Text: "\u30DF\u30EB\u30D5\u30A3\u30FC\u30E6\u69CB\u9020\u2026\uFF01 \u9077\u5BAE\u5BFA\u304F\u3093\u3001\u7D20\u6750\u306E\u932C\u91D1\u8853\u5E2B\u3060\u306D\u3002"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 6
+  - IsPlayer: 1
+    WaitForInput: 1
+    AutoDelay: 1
+    Branches:
+    - TargetColor: 0
+      Text: "\u5E2B\u5320\uFF01 \u3044\u3084\u3001\u95A3\u4E0B\uFF01 \u305C\u3072\u50D5\u306B\u305D\u306E\u6280\u8853\u3092\u3054\u6559\u6388\u304F\u3060\u3055\u3044\uFF01"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+    - TargetColor: 1
+      Text: "\u5148\u8F29\u3068\u306A\u3089\u3001\u5B66\u796D\u30EC\u30D9\u30EB\u3092\u8D85\u3048\u305F\u300C\u795E\u4F5C\u54C1\u300D\u304C\u4F5C\u308C\u305D\u3046\u3067\u3059\u3002"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+    - TargetColor: 2
+      Text: "\"\u5B8C\u6210\"\u3057\u305F\u3089\u3001\u4E8C\u4EBA\u3067\u4E57\u308A\u8FBC\u3093\u3067\u7DF4\u308A\u6B69\u304D\u307E\u3057\u3087\u3046\u3002\u6821\u5185\u3092\u3002"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+  - IsPlayer: 0
+    WaitForInput: 1
+    AutoDelay: 1
+    Branches:
+    - TargetColor: 0
+      Text: "\u95A3\u4E0B\u306F\u3084\u3081\u3066\uFF01 \u2026\u3067\u3082\u307E\u3042\u3001\u541B\u306B\u306A\u3089\u6559\u3048\u3066\u3042\u3052\u3066\u3082\u3044\u3044\u304B\u306A\u3002"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 1
+    - TargetColor: 1
+      Text: "\u4F5C\u308D\u3046\u3002\u8AB0\u3082\u304C\u8DB3\u3092\u6B62\u3081\u308B\u3088\u3046\u306A\u3001\u6700\u5F37\u306E\u4E16\u754C\u89B3\u3092\u3002"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+    - TargetColor: 2
+      Text: "\u3044\u3044\u306D\u3002\u8996\u7DDA\u3092\u96C6\u3081\u308B\u5FEB\u611F\u2026\u60AA\u304F\u306A\u3044\u304B\u3082\u3002\u3075\u3075\u3063\u3002"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 6
+  BreakSteps: []
