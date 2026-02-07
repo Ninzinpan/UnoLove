@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76a235050b965420a94a095648c65048, type: 3}
+  m_Name: Break_Session1
+  m_EditorClassIdentifier: Assembly-CSharp::TopicScenario
+  TopicId: Break_Session1
+  Steps:
+  - IsPlayer: 1
+    WaitForInput: 1
+    AutoDelay: 1
+    Branches:
+    - TargetColor: 5
+      Text: "\uFF08\u4F1A\u8A71\u304C\u9014\u5207\u308C\u305F\u4E00\u77AC\u3001\u5148\u8F29\u304C\u300E\u3075\u3045\u300F\u3068\u5C0F\u3055\u304F\u606F\u3092\u5410\u3044\u305F\u306E\u304C\u898B\u3048\u305F\u3002\uFF09"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+  - IsPlayer: 0
+    WaitForInput: 1
+    AutoDelay: 1
+    Branches:
+    - TargetColor: 5
+      Text: "\u300C\u2026\u2026\u5371\u306A\u304B\u3063\u305F\u30FC\u3002\u300D"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 7
+  - IsPlayer: 1
+    WaitForInput: 1
+    AutoDelay: 1
+    Branches:
+    - TargetColor: 5
+      Text: "\u300C\u3048\u3063\uFF1F \u4F55\u304B\u3042\u308A\u307E\u3057\u305F\u304B\uFF1F
+        \u5148\u8F29\u3002\u300D"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+  - IsPlayer: 0
+    WaitForInput: 1
+    AutoDelay: 1
+    Branches:
+    - TargetColor: 5
+      Text: "\u300C\u3048\u3063\uFF01\uFF1F \u306A\u3001\u306A\u3093\u3067\u3082\u306A\u3044\u3088\uFF01
+        \u307B\u3089\u3001\u6CE8\u6587\u3057\u305F\u306E\u6765\u305F\u3088\uFF01\u300D"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 2
+  - IsPlayer: 1
+    WaitForInput: 1
+    AutoDelay: 1
+    Branches:
+    - TargetColor: 5
+      Text: "\uFF08\u2026\u2026\u306A\u3093\u3060\u308D\u3046\u3002\u5148\u8F29\u3001\u5999\u306B\u7126\u3063\u3066\u308B\u3088\u3046\u306A\u2026\u2026\u50D5\u3001\u5909\u306A\u3053\u3068\u8A00\u3063\u305F\u304B\u306A\uFF1F\uFF09"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+  - IsPlayer: 0
+    WaitForInput: 1
+    AutoDelay: 1
+    Branches:
+    - TargetColor: 5
+      Text: "\u300C\u3055\u3041\u3001\u98F2\u3093\u3067\u98F2\u3093\u3067\uFF01 \u7CD6\u5206\u88DC\u7D66\u3057\u3066\u9811\u5F35\u308D\u3063\uFF01\u300D"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 1
+  BreakSteps: []

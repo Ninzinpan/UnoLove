@@ -40,6 +40,8 @@ private int targetScore = 500;
     private TurnPhase currentPhase;
     private GameEndState gameEndState;
 
+    private CardColor lastPlayedColor = CardColor.None;
+
     public WhoseTurn CurrentTurn => currentTurn;
     public int TurnCount => turnCount;
     public int LimitTurn => limitTurn;
@@ -102,7 +104,7 @@ private async Task MainGameloop()
         fieldManager.Initialieze();
         _currentTopicData = null;
 
-        await storyManager.CheckAndPlay(StoryTrigger.GameStart, CreateSnapshot());
+        await storyManager.CheckAndPlay(StoryTrigger.GameStart, CreateSnapshot(false));
 
         while (true){
         Debug.Log("新たなセッションを開始します。");
@@ -134,15 +136,38 @@ private async Task MainGameloop()
     }
 private async Task OnComboBreak(WhoseTurn turn)
     {
+        if (_currentTopicData != null){
         await comboChatManager.OnComboBreak(_currentTopicData.Type,turn);
         
-        await storyManager.CheckAndPlay(StoryTrigger.ComboBreak, CreateSnapshot());
+        }
+        bool isBonusHit = false;
+        var currentProfile = comboChatManager.CurrentProfile; // ComboChatManagerに追加したプロパティ
+
+        if (currentProfile != null)
+        {
+            // 最後のカード色がボーナス色と一致するか？
+            if (lastPlayedColor == currentProfile.BonusColor)
+            {
+                Debug.Log($"<color=yellow>BONUS HIT! Last: {lastPlayedColor}</color>");
+                scoreManager.AddScore(500); // ボーナス点 500
+                isBonusHit = true;
+            }
+        }
+
+        // 3. StoryManagerへ通知 (Trigger: ComboBreak)
+        // ここで CreateSnapshot(isBonusHit) を呼ぶことで、Snapshotにボーナス情報が載る
+        await storyManager.CheckAndPlay(StoryTrigger.ComboBreak, CreateSnapshot(isBonusHit));        
         await check_game_end();
+        comboChatManager.AdvanceSession();
+
+
         fieldManager.ResetFieldCard();
         scoreManager.ResetCurrentTopic();
         player.DiscardAllCardFromHand();
         opponent.DiscardAllCardFromHand();
+        scoreManager.Initialieze();
         _currentTopicData = null;
+        lastPlayedColor = CardColor.None; // リセット
     }
 private async Task<(SelectContinueState selectContinueState,WhoseTurn turn)> ComboLoop(DuelistManager player,DuelistManager opponent)
     {
@@ -180,7 +205,7 @@ private async Task<(SelectContinueState selectContinueState,WhoseTurn turn)> Com
 private async Task TurnSequence(DuelistManager duelist, WhoseTurn turn)
     {
         Debug.Log($"{turn}のターンが始まりました。{turnCount}ターン目");
-        await storyManager.CheckAndPlay(StoryTrigger.TurnStart, CreateSnapshot());
+        await storyManager.CheckAndPlay(StoryTrigger.TurnStart, CreateSnapshot(false));
         await StandByPhase(duelist, turn);
  
         //await DrawPhase(duelist, turn);
@@ -311,11 +336,14 @@ while (true)
             {
                 fieldManager.AddCard(_selectedCard.Data);
             }
+
+            
             else
             {
                 Debug.LogWarning("FieldManagerが割り当てられていません。");
 
             }
+            lastPlayedColor = _selectedCard.Data.Color;
         if (_currentTopicData == null)
             {
                 _currentTopicData = _selectedCard.Data;
@@ -343,7 +371,7 @@ while (true)
         scoreManager.CalculateScore(fieldCards);
         await comboChatManager.OnCardPlayed(_currentTopicData.Type,fieldCards[fieldCards.Count -1].Color);
         
-        await storyManager.CheckAndPlay(StoryTrigger.CardPlayed, CreateSnapshot());
+        await storyManager.CheckAndPlay(StoryTrigger.CardPlayed, CreateSnapshot(false));
 
         _selectedCard = null;
 
@@ -373,7 +401,7 @@ while (true)
         {
             gameEndState = GameEndState.Victory;
             Debug.Log("目標スコアを達成しました。ゲームを終了します。");
-            await storyManager.CheckAndPlay(StoryTrigger.GameClear, CreateSnapshot());
+            await storyManager.CheckAndPlay(StoryTrigger.GameClear, CreateSnapshot(false));
             OnGameFinished?.Invoke(gameEndState);
             return;
 
@@ -383,14 +411,14 @@ while (true)
         {
             gameEndState = GameEndState.Lose;
             Debug.Log("ターンリミットです。ゲームを終了します。");
-            await storyManager.CheckAndPlay(StoryTrigger.GameOver, CreateSnapshot());
+            await storyManager.CheckAndPlay(StoryTrigger.GameOver, CreateSnapshot(false));
             OnGameFinished?.Invoke(gameEndState);
             return;
         }
 
     }
 
-    private GameStateSnapshot CreateSnapshot()
+    private GameStateSnapshot CreateSnapshot(bool isBonusHit)
     {
         // TopicDataがnullでないなら、そのType(String)を取得、nullなら空文字かnull
         string topicId = _currentTopicData != null ? _currentTopicData.Type.ToString() : null;
@@ -398,6 +426,7 @@ while (true)
         // 現在のコンボ数はFieldManagerのカード枚数と等しいと仮定
         // (ScoreManager側で管理しているならそちらを使ってください)
         int currentCombo = scoreManager.CurrentComboCount;
+        int sessionIdx = comboChatManager.CurrentSessionIndex;
 
         return new GameStateSnapshot(
             score: scoreManager.CurrentScore, // ※ScoreManagerにCurrentScoreプロパティが必要
@@ -405,7 +434,11 @@ while (true)
             turn: turnCount,
             remain: limitTurn - turnCount,
             topicId: topicId,
-            isActive: _currentTopicData != null
+            isActive: _currentTopicData != null,
+            sessionIndex: sessionIdx, // ★セッション数
+            isBonus: isBonusHit       // ★ボーナスフラグ
+            
+            
         );
     }
     void Update()

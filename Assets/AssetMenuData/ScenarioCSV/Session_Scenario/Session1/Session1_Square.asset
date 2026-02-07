@@ -1,0 +1,116 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76a235050b965420a94a095648c65048, type: 3}
+  m_Name: Session1_Square
+  m_EditorClassIdentifier: Assembly-CSharp::TopicScenario
+  TopicId: Session1_Square
+  Steps:
+  - IsPlayer: 1
+    WaitForInput: 1
+    AutoDelay: 1
+    Branches:
+    - TargetColor: 0
+      Text: "\u304A\u3001\u91CD\u3044\u8377\u7269\u306F\u5168\u90E8\u50D5\u304C\u6301\u3061\u307E\u3059\uFF01
+        \u4EFB\u305B\u3066\u304F\u3060\u3055\u3044\uFF01\uFF08\u8155\u3092\u307E\u304F\u308B\uFF09"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+    - TargetColor: 1
+      Text: "\u30DA\u30F3\u30AD\u306B\u753B\u7528\u7D19\u304B\u2026\u3002\u7D50\u69CB\u306A\u91CF\u306B\u306A\u308A\u305D\u3046\u3067\u3059\u306D\u3002"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+    - TargetColor: 2
+      Text: "\u3088\u3001\u4E88\u7B97\u4F59\u3063\u305F\u3089\u3001\u3053\u3063\u305D\u308A\u304A\u83D3\u5B50\u8CB7\u3063\u3061\u3083\u30C0\u30E1\u3067\u3059\u304B\u306D\uFF1F"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+  - IsPlayer: 0
+    WaitForInput: 1
+    AutoDelay: 1
+    Branches:
+    - TargetColor: 0
+      Text: "\u983C\u3082\u3057\u3044\u301C\uFF01 \u3055\u3059\u304C\u7537\u306E\u5B50\u3060\u306D\u3002\u671F\u5F85\u3057\u3066\u308B\u3088\uFF1F"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 1
+    - TargetColor: 1
+      Text: "\u3046\u3093\u3001\u8CB7\u3044\u5FD8\u308C\u304C\u306A\u3044\u3088\u3046\u306B\u30EA\u30B9\u30C8\u78BA\u8A8D\u3057\u306A\u304D\u3083\u306D\u3002"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+    - TargetColor: 2
+      Text: "\u30C0\u30E1\u306B\u6C7A\u307E\u3063\u3066\u308B\u3067\u3057\u3087\uFF01
+        \u4F1A\u8A08\u4FC2\u306B\u6012\u3089\u308C\u3061\u3083\u3046\u3088\uFF08\u7B11\uFF09"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 2
+  - IsPlayer: 1
+    WaitForInput: 1
+    AutoDelay: 1
+    Branches:
+    - TargetColor: 0
+      Text: "\u5148\u8F29\u306E\u305F\u3081\u306A\u3089\u3001\u30DA\u30F3\u30AD\u7F36\u306E\u30D4\u30E9\u30DF\u30C3\u30C9\u3060\u3063\u3066\u4F5C\u308C\u307E\u3059\u3088\uFF01\uFF08\u30C9\u30E4\u9854\uFF09"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+    - TargetColor: 1
+      Text: "\u6E96\u5099\u5927\u5909\u3067\u3059\u3051\u3069\u3001\u5B8C\u6210\u3057\u305F\u6642\u306E\u611F\u52D5\u306F\u3059\u3054\u3044\u3067\u3059\u3088\u306D\u3002"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+    - TargetColor: 2
+      Text: "\u3082\u3057\u30DA\u30F3\u30AD\u3053\u307C\u3057\u305F\u3089\u3001\u300E\u524D\u885B\u82B8\u8853\u3067\u3059\u300F\u3063\u3066\u8A00\u3044\u5F35\u308A\u307E\u3057\u3087\u3046\u3002"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+  - IsPlayer: 0
+    WaitForInput: 1
+    AutoDelay: 1
+    Branches:
+    - TargetColor: 0
+      Text: "\u3042\u306F\u306F\u3001\u4F55\u305D\u308C\uFF01 \u3067\u3082\u3001\u305D\u306E\u610F\u6C17\u8FBC\u307F\u306F\u5B09\u3057\u3044\u306A\u3002"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 6
+    - TargetColor: 1
+      Text: "\u305D\u3046\u305D\u3046\uFF01 \u30A2\u30FC\u30C1\u304C\u7ACB\u3061\u4E0A\u304C\u3063\u305F\u77AC\u9593\u3068\u304B\u3001\u6CE3\u304D\u305D\u3046\u306B\u306A\u308B\u3082\u3093\u3002"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 1
+    - TargetColor: 2
+      Text: "\u30DD\u30B8\u30C6\u30A3\u30D6\u3060\u306A\u3041\uFF08\u7B11\uFF09 \u3067\u3082\u3001\u306A\u308B\u3079\u304F\u3053\u307C\u3055\u306A\u3044\u3067\u306D\uFF1F"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+  - IsPlayer: 1
+    WaitForInput: 1
+    AutoDelay: 1
+    Branches:
+    - TargetColor: 0
+      Text: "\u4ECA\u5E74\u306E\u5B66\u796D\u3001\u7D76\u5BFE\u306B\u6210\u529F\u3055\u305B\u307E\u3057\u3087\u3046\u306D\u3002\u3075\u3001\u4E8C\u4EBA\u3067\uFF01\uFF08\u8D64\u9762\uFF09"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+    - TargetColor: 1
+      Text: "\u7121\u7406\u3057\u306A\u3044\u3067\u304F\u3060\u3055\u3044\u306D\u3002\u75B2\u308C\u305F\u3089\u3059\u3050\u8A00\u3063\u3066\u304F\u3060\u3055\u3044\u3002"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+    - TargetColor: 2
+      Text: "\u8D64\u3044\u30DA\u30F3\u30AD\u8CB7\u3044\u307E\u3057\u3087\u3046\u3002\u3066\u3001\u6575\u306E\u8FD4\u308A\u8840\u3092\u76EE\u7ACB\u305F\u306A\u304F\u3059\u308B\u305F\u3081\u306B\uFF01"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+  - IsPlayer: 0
+    WaitForInput: 1
+    AutoDelay: 1
+    Branches:
+    - TargetColor: 0
+      Text: "\u2026\u3046\u3093\uFF01 \u9077\u5BAE\u5BFA\u304F\u3093\u304C\u3044\u308C\u3070\u3001\u767E\u4EBA\u529B\u3060\u306D\uFF01"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 1
+    - TargetColor: 1
+      Text: "\u3042\u308A\u304C\u3068\u3046\u3002\u512A\u3057\u3044\u5F8C\u8F29\u3092\u6301\u3063\u3066\u3001\u79C1\u306F\u5E78\u305B\u8005\u3060\u306A\u3041\u3002"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+    - TargetColor: 2
+      Text: "\u6016\u3044\u3088\uFF01 \u4F55\u306E\u6226\u3044\u306A\u306E\uFF01\uFF1F
+        \u2026\u307E\u3001\u7DE0\u3081\u5207\u308A\u3068\u306E\u6226\u3044\u3060\u3051\u3069\u3002"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 7
+  BreakSteps: []

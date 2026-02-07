@@ -7,127 +7,174 @@ public class ComboChatManager : MonoBehaviour
     [Header("Dependencies")]
     [SerializeField] private ChatSequencer sequencer;
 
-    [Header("Data Settings")]
-    // ShapeごとのシナリオアセットをInspectorで設定
-    [SerializeField] private TopicScenario circleTopic;
-    [SerializeField] private TopicScenario squareTopic;
-    [SerializeField] private TopicScenario triangleTopic;
+    [Header("Session Data")]
+    [Tooltip("セッションごとのプロファイルを順に登録")]
+    [SerializeField] private List<SessionScenarioProfile> sessionProfiles = new List<SessionScenarioProfile>();
 
     // 実行時の状態管理
-    private Dictionary<CardType, TopicState> topicStates = new Dictionary<CardType, TopicState>();
+    private Dictionary<CardType, TopicState> currentTopicStates = new Dictionary<CardType, TopicState>();
+    
+    private int currentSessionIndex = 0;
+    private CardColor lockedColor = CardColor.None; // コンボ中に固定される色
+
+    public int CurrentSessionIndex => currentSessionIndex;
+
+    // 現在のセッション情報を取得するプロパティ
+    public SessionScenarioProfile CurrentProfile
+    {
+        get
+        {
+            if (sessionProfiles == null || sessionProfiles.Count == 0) return null;
+            // インデックスが範囲外なら最後のものを使う（ループ回避）
+            int safeIndex = Mathf.Clamp(currentSessionIndex, 0, sessionProfiles.Count - 1);
+            return sessionProfiles[safeIndex];
+        }
+    }
 
     void Start()
     {
-        // 状態の初期化
-        if (circleTopic != null) topicStates[CardType.Circle] = new TopicState(circleTopic);
-        if (squareTopic != null) topicStates[CardType.Square] = new TopicState(squareTopic);
-        if (triangleTopic != null) topicStates[CardType.Triangle] = new TopicState(triangleTopic);
+        InitializeSession();
     }
 
-  
+    // セッション開始・切り替え時の初期化
+    private void InitializeSession()
+    {
+        currentTopicStates.Clear();
+        lockedColor = CardColor.None;
+
+        var profile = CurrentProfile;
+        if (profile == null) return;
+
+        // 現在のプロファイルから各Shapeのシナリオをロード
+        if (profile.CircleScenario != null) 
+            currentTopicStates[CardType.Circle] = new TopicState(profile.CircleScenario);
+        
+        if (profile.SquareScenario != null) 
+            currentTopicStates[CardType.Square] = new TopicState(profile.SquareScenario);
+        
+        if (profile.TriangleScenario != null) 
+            currentTopicStates[CardType.Triangle] = new TopicState(profile.TriangleScenario);
+            
+        Debug.Log($"Session {currentSessionIndex + 1} Initialized. Bonus Color: {profile.BonusColor}");
+    }
 
     // --- 外部呼び出し: カードが出された時 ---
-
-
     public async Task OnCardPlayed(CardType playedShape, CardColor playedColor)
     {
-        
         // 1. 対応する話題を取得
-        if (!topicStates.ContainsKey(playedShape)) return;
-        TopicState state = topicStates[playedShape];
+        if (!currentTopicStates.ContainsKey(playedShape)) return;
+        TopicState state = currentTopicStates[playedShape];
 
-        // 2. 終了判定
+        // 2. 終了判定 (会話切れ)
         if (state.CurrentIndex >= state.Scenario.Steps.Count)
         {
-            // 話題切れの場合の処理（ループするか、黙るか）
             return; 
         }
 
-        // 3. 現在のステップ取得
+        // 3. カラーロック判定 (ここが重要！)
+        // まだロックされていない（コンボ初手）なら、今の色でロックする
+        if (lockedColor == CardColor.None)
+        {
+            lockedColor = playedColor;
+            Debug.Log($"Color Locked: {lockedColor}");
+        }
+
+        // 4. 現在のステップ取得
         ScenarioStep currentStep = state.Scenario.Steps[state.CurrentIndex];
 
-        // 4. 分岐解決 (コンテキストカラーを使用)
-        // プレイヤーの場合は自分の出した色、相手の場合は直前のコンテキスト色を使う
-        CardColor searchKey = currentStep.IsPlayer ? playedColor : state.LastContextColor;
+        // 5. 分岐解決
+        // プレイヤーの場合： 「今回出した色」ではなく「ロックされた色」を使って検索する
+        // 相手の場合： 文脈（LastContextColor）を使うが、今回はロック色＝文脈となるのでロック色を使う
+        CardColor searchKey = currentStep.IsPlayer ? lockedColor : state.LastContextColor;
         
-        // 初手がいきなり相手の場合のケア
-        if (!currentStep.IsPlayer && searchKey == CardColor.None) searchKey = CardColor.Any;
+        // 初手がいきなり相手、かつロック前の場合のケア
+        if (!currentStep.IsPlayer && searchKey == CardColor.None) 
+        {
+             // ロック色がまだないならAnyで探すしかない
+             searchKey = CardColor.Any;
+        }
+        else if (!currentStep.IsPlayer)
+        {
+            // 相手番でも基本はロック色に従う
+            searchKey = lockedColor;
+        }
 
         DialogueBranch branch = FindBranch(currentStep, searchKey);
 
-        // 5. コンテキスト更新 (今回出した色を記憶)
-        state.LastContextColor = playedColor;
+        // 6. コンテキスト更新
+        state.LastContextColor = lockedColor; // 常にロック色で上書き
 
-        // 6. 再生用データ作成 (Sequencer用)
+        // 7. 再生用データ作成
         ChatSequenceData data = new ChatSequenceData
         {
             Text = branch.Text,
             IsPlayer = currentStep.IsPlayer,
             TextColor = branch.TextColor,
             Face = branch.Face,
-            
-            // コンボ会話なので、基本はデータの設定に従う（主にAutoDelayで進む想定）
             WaitForInput = currentStep.WaitForInput,
             AutoDelay = currentStep.AutoDelay
         };
 
-        // 7. Sequencerへ依頼 (Fire and Forget)
-        var sequence = new List<ChatSequenceData> { data };
-        await sequencer.PlaySequence(sequence);
+        // 8. Sequencerへ依頼
+        await sequencer.PlaySequence(new List<ChatSequenceData> { data });
 
-        // 8. インデックス進行
+        // 9. インデックス進行
         state.CurrentIndex++;
     }
 
     // --- 外部呼び出し: コンボ中断時 ---
-    public async Task OnComboBreak(CardType currentShape,WhoseTurn turn)
+    // TurnManagerから呼ばれる。セッションを進める処理もここで行うか、別途メソッドを用意するか。
+    // ここでは「ブレイク会話の再生」を行い、その後にTurnManagerがAdvanceSessionを呼ぶ想定にします。
+    public async Task OnComboBreak(CardType currentShape, WhoseTurn turn)
     {
-        if (!topicStates.ContainsKey(currentShape)) return;
-        TopicState state = topicStates[currentShape];
-
-        if (state.Scenario.BreakSteps.Count == 0) return;
-
-        // ランダムにブレイク会話を取得
-        ScenarioStep breakStep = state.Scenario.BreakSteps[Random.Range(0, state.Scenario.BreakSteps.Count)];
-        
-        // ブレイク会話は基本分岐なし(Any)とする
-        DialogueBranch branch = FindBranch(breakStep, CardColor.Any);
-
-        ChatSequenceData data = new ChatSequenceData
+        // ブレイク時の会話再生（既存ロジック）
+        if (currentTopicStates.ContainsKey(currentShape))
         {
-            Text = branch.Text,
-            IsPlayer = breakStep.IsPlayer,
-            TextColor = branch.TextColor,
-            Face = branch.Face,
-            WaitForInput = breakStep.WaitForInput,
-            AutoDelay = breakStep.AutoDelay
-        };
+            TopicState state = currentTopicStates[currentShape];
+            if (state.Scenario.BreakSteps.Count > 0)
+            {
+                ScenarioStep breakStep = state.Scenario.BreakSteps[Random.Range(0, state.Scenario.BreakSteps.Count)];
+                DialogueBranch branch = FindBranch(breakStep, CardColor.Any);
 
-       await sequencer.PlaySequence(new List<ChatSequenceData> { data });
-        
-
-        //ヒロインがブレイクした場合は、プレイヤーのセリフに戻す。
-        if (turn == WhoseTurn.Opponent && state.CurrentIndex > 0)
-        {
-            state.CurrentIndex--;
+                ChatSequenceData data = new ChatSequenceData
+                {
+                    Text = branch.Text,
+                    IsPlayer = breakStep.IsPlayer,
+                    TextColor = branch.TextColor,
+                    Face = branch.Face,
+                    WaitForInput = breakStep.WaitForInput,
+                    AutoDelay = breakStep.AutoDelay
+                };
+                await sequencer.PlaySequence(new List<ChatSequenceData> { data });
+                
+                // ヒロインがブレイクした場合はインデックスを戻す等の処理
+                if (turn == WhoseTurn.Opponent && state.CurrentIndex > 0)
+                {
+                    state.CurrentIndex--;
+                }
+            }
         }
+    }
 
-        // 文脈だけリセット
-        state.LastContextColor = CardColor.None;
+    // --- セッション進行（TurnManagerから呼ぶ） ---
+    public void AdvanceSession()
+    {
+        currentSessionIndex++;
+        // 次のセッションデータをロードしてリセット
+        InitializeSession();
     }
 
     // --- ヘルパー: 分岐検索 ---
     private DialogueBranch FindBranch(ScenarioStep step, CardColor colorKey)
     {
-        // 完全一致 -> Any -> 先頭 の順で検索
         var match = step.Branches.Find(b => b.TargetColor == colorKey);
         if (match != null) return match;
 
         var any = step.Branches.Find(b => b.TargetColor == CardColor.Any);
         if (any != null) return any;
 
-        if (step.Branches.Count > 0) return step.Branches[0]; // エラー回避のフォールバック
+        if (step.Branches.Count > 0) return step.Branches[0];
 
-        return new DialogueBranch { Text = "..." }; // 完全なエラー
+        return new DialogueBranch { Text = "..." };
     }
 }

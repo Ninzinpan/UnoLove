@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   color: 2
   type: 2
-  cardImage: {fileID: -459446025378614366, guid: 5ef3aa81f10a04c23ada62ae9db3d617, type: 3}
+  cardImage: {fileID: 7095614822367343359, guid: de746857a1fe14531bec047d8fa8e935, type: 3}

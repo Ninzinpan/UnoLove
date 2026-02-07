@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1c385baa14d74e49a6ce5e3f5fd8855, type: 3}
+  m_Name: Session1
+  m_EditorClassIdentifier: Assembly-CSharp::SessionScenarioProfile
+  CircleScenario: {fileID: 11400000, guid: f86eb8745f9ff4102af81ec47548508a, type: 2}
+  SquareScenario: {fileID: 11400000, guid: 4092629cdbdee44dfb4b83ebae71f8f4, type: 2}
+  TriangleScenario: {fileID: 11400000, guid: 1b239e44fb66a4af58b8f53411ce6e57, type: 2}
+  BonusColor: 0
+  BonusEventID: 0

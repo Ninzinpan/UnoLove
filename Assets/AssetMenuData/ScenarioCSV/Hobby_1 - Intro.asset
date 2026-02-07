@@ -1,0 +1,137 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76a235050b965420a94a095648c65048, type: 3}
+  m_Name: Hobby_1 - Intro
+  m_EditorClassIdentifier: Assembly-CSharp::TopicScenario
+  TopicId: Hobby_1 - Intro
+  Steps:
+  - IsPlayer: 1
+    WaitForInput: 1
+    AutoDelay: 1
+    Branches:
+    - TargetColor: 5
+      Text: ......
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+  - IsPlayer: 1
+    WaitForInput: 1
+    AutoDelay: 1
+    Branches:
+    - TargetColor: 5
+      Text: "\u65E9\u304F\u304D\u3059\u304E\u305F\u306A...."
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+  - IsPlayer: 1
+    WaitForInput: 1
+    AutoDelay: 1
+    Branches:
+    - TargetColor: 5
+      Text: "\u5148\u8F29\u307E\u3060\u304B\u306A..."
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+  - IsPlayer: 1
+    WaitForInput: 1
+    AutoDelay: 1
+    Branches:
+    - TargetColor: 5
+      Text: "(\u7D04\u675F\u306E\u6642\u9593\u306B\u30011\u6642\u9593\u3082\u524D\u304B\u3089\u6765\u3066\u3057\u307E\u3063\u305F\u3002\u30AB\u30D5\u30A7\u306B\u4EBA\u304C\u5165\u308B\u305F\u3073\u306B\u3001\u4E00\u77AC\u30D3\u30AF\u30C3\u3068\u3057\u3066\u3064\u3044\u632F\u308A\u5411\u3044\u3066\u3057\u307E\u3046)"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+  - IsPlayer: 0
+    WaitForInput: 1
+    AutoDelay: 1
+    Branches:
+    - TargetColor: 5
+      Text: "\u3064\u3044\u305F\u3088\u30FC"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 1
+  - IsPlayer: 1
+    WaitForInput: 1
+    AutoDelay: 1
+    Branches:
+    - TargetColor: 5
+      Text: "(\u30D3\u30AF\u30A5\uFF01)"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+  - IsPlayer: 0
+    WaitForInput: 1
+    AutoDelay: 1
+    Branches:
+    - TargetColor: 5
+      Text: "\u3042\u3001\u3044\u305F\u3044\u305F\u30FC"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 1
+  - IsPlayer: 0
+    WaitForInput: 1
+    AutoDelay: 1
+    Branches:
+    - TargetColor: 5
+      Text: "\u3054\u3081\u3093\uFF01\u9077\u5BAE\u5BFA\u304F\u3093\uFF01\u307E\u305F\u305B\u3061\u3083\u3063\u305F\uFF1F"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 7
+  - IsPlayer: 1
+    WaitForInput: 1
+    AutoDelay: 1
+    Branches:
+    - TargetColor: 5
+      Text: "\u3044\u3001\u3044\u3084\uFF01\u3044\u307E\u6765\u305F\u3068\u308D\u3067\u3059\uFF01\uFF01"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+  - IsPlayer: 0
+    WaitForInput: 1
+    AutoDelay: 1
+    Branches:
+    - TargetColor: 5
+      Text: "\u30E1\u30CB\u30E5\u30FC\u79C1\u3082\u983C\u3080\u306D\u3002"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+  - IsPlayer: 0
+    WaitForInput: 1
+    AutoDelay: 1
+    Branches:
+    - TargetColor: 5
+      Text: "\u3046\u30FC\u3093\u3002\u30AB\u30D5\u30A7\u30E9\u30C6\u306B\u3057\u3088\u3046\u304B\u306A\u30FC\u3002\u304A\u9858\u3044\u3057\u307E\u30FC\u3059\uFF01"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+  - IsPlayer: 1
+    WaitForInput: 1
+    AutoDelay: 1
+    Branches:
+    - TargetColor: 5
+      Text: "(\u5148\u8F29\u30AB\u30D5\u30A7\u30E9\u30C6\u983C\u3080\u3093\u3060...\u53EF\u611B\u3044\u306A\u3002)"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+  - IsPlayer: 0
+    WaitForInput: 1
+    AutoDelay: 1
+    Branches:
+    - TargetColor: 5
+      Text: "\u3044\u3084\u30FC\u3001\u5B66\u5712\u796D\u306E\u8CB7\u3044\u51FA\u3057\u3001\u4ECA\u65E5\u884C\u3051\u3066\u826F\u304B\u3063\u305F\u306D\uFF01\u4ED6\u306E\u307F\u3093\u306A\u30A4\u30F3\u30D5\u30EB\u306B\u306A\u3063\u3061\u3083\u3063\u305F\u3057..."
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 1
+  - IsPlayer: 1
+    WaitForInput: 1
+    AutoDelay: 1
+    Branches:
+    - TargetColor: 5
+      Text: "\u305D\u3046\u3067\u3059\u306D\uFF01"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+  - IsPlayer: 1
+    WaitForInput: 1
+    AutoDelay: 1
+    Branches:
+    - TargetColor: 5
+      Text: "\uFF08\u672C\u5F53\u306B\u826F\u304B\u3063\u305F..\u3053\u306E\u6A5F\u4F1A\u306B\u3001\u5148\u8F29\u3068\u3046\u307E\u304F\u4F1A\u8A71\u3092\u7E4B\u3052\u3066\u3001\u4EF2\u826F\u304F\u306A\u308B\u3057\u304B\u306A\u3044\uFF01\uFF01\uFF01\uFF01\uFF09"
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+  BreakSteps: []

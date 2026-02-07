@@ -34,7 +34,7 @@ public class ScoreUi : MonoBehaviour
     {
         whoseTurntext = (turnManager.CurrentTurn ==  WhoseTurn.Player ) ? "Player" : "Opponent"  ;
         totalTurn = turnManager.TurnCount;
-        UI_currentScore = scoreManager.FinalScore;
+        UI_currentScore = 0;
         totalScore= scoreManager.CurrentScore; 
         comboCount = scoreManager.CurrentComboCount;
         string  forbitten_color = "";

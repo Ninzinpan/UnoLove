@@ -48,7 +48,10 @@ public class GameStateSnapshot
     public string CurrentTopicId; // CardTypeを文字列化して保持
     public bool IsComboActive;
 
-    public GameStateSnapshot(int score, int combo, int turn, int remain, string topicId, bool isActive)
+    public int CurrentSessionIndex; // 現在何回戦目か (0始まり)
+    public bool IsBonusHit;         // 直前のプレイでボーナス色を当てたか
+
+    public GameStateSnapshot(int score, int combo, int turn, int remain, string topicId, bool isActive,int sessionIndex, bool isBonus)
     {
         CurrentScore = score;
         CurrentCombo = combo;
@@ -56,6 +59,8 @@ public class GameStateSnapshot
         RemainingTurns = remain;
         CurrentTopicId = topicId;
         IsComboActive = isActive;
+        CurrentSessionIndex = sessionIndex;
+        IsBonusHit = isBonus;
     }
 }
 
