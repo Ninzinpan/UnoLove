@@ -19,15 +19,15 @@ MonoBehaviour:
     AutoDelay: 0
     Branches:
     - TargetColor: 0
-      Text: Red_Squaire?
+      Text: Red_Triangle?
       TextColor: {r: 0, g: 0, b: 0, a: 1}
       Face: 0
     - TargetColor: 1
-      Text: Green_Squaire?
+      Text: Green_Triangle?
       TextColor: {r: 0, g: 0, b: 0, a: 1}
       Face: 0
     - TargetColor: 2
-      Text: Blue_Squaire?
+      Text: Blue_Triangle?
       TextColor: {r: 0, g: 0, b: 0, a: 1}
       Face: 0
   - IsPlayer: 0
@@ -35,15 +35,79 @@ MonoBehaviour:
     AutoDelay: 0
     Branches:
     - TargetColor: 0
-      Text: Red_Squaire
+      Text: Red_Triangle
       TextColor: {r: 0, g: 0, b: 0, a: 1}
       Face: 0
     - TargetColor: 1
-      Text: Green_Squaire
+      Text: Green_Triangle
       TextColor: {r: 0, g: 0, b: 0, a: 1}
       Face: 0
     - TargetColor: 2
-      Text: Blue_Squaire
+      Text: Blue_Triangle
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+  - IsPlayer: 1
+    WaitForInput: 0
+    AutoDelay: 0
+    Branches:
+    - TargetColor: 0
+      Text: Red_Triangle
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+    - TargetColor: 1
+      Text: Green_Triangle
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+    - TargetColor: 2
+      Text: Blue_Triangle
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+  - IsPlayer: 0
+    WaitForInput: 0
+    AutoDelay: 0
+    Branches:
+    - TargetColor: 0
+      Text: Red_Triangle
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+    - TargetColor: 1
+      Text: Green_Triangle
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+    - TargetColor: 2
+      Text: Blue_Triangle
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+  - IsPlayer: 1
+    WaitForInput: 0
+    AutoDelay: 0
+    Branches:
+    - TargetColor: 0
+      Text: Red_Triangle
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+    - TargetColor: 1
+      Text: Green_Triangle
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+    - TargetColor: 2
+      Text: Blue_Triangle
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+  - IsPlayer: 0
+    WaitForInput: 0
+    AutoDelay: 0
+    Branches:
+    - TargetColor: 0
+      Text: Red_Triangle
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+    - TargetColor: 1
+      Text: Green_Triangle
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+    - TargetColor: 2
+      Text: Blue_Triangle
       TextColor: {r: 0, g: 0, b: 0, a: 1}
       Face: 0
   BreakSteps: []

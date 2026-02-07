@@ -10,7 +10,12 @@ public class ChatBubbleView : MonoBehaviour
     [SerializeField] private HorizontalLayoutGroup layoutGroup;
 
     [Header("Design Settings")]
-    [SerializeField] private Color playerBubbleColor = new Color(0.8f, 1f, 0.8f);
+    [SerializeField] private Color playerDefaultBubbleColor = new Color(0.8f, 1f, 0.8f);
+        [SerializeField] private Color playerRedBubbleColor = Color.red;
+        [SerializeField] private Color playerGreenBubbleColor = Color.green;
+        [SerializeField] private Color playerBlueBubbleColor = Color.blue;
+
+
     [SerializeField] private Color opponentBubbleColor = Color.white;
 
     // 変更点: 引数を ChatSequenceData に変更
@@ -35,7 +40,7 @@ public class ChatBubbleView : MonoBehaviour
             // プレイヤー（右側）
             layoutGroup.childAlignment = TextAnchor.MiddleRight;
             // アイコン等の順序反転が必要な場合はここで reverseArrangement = true 等
-            bubbleBackground.color = playerBubbleColor;
+            bubbleBackground.color = playerDefaultBubbleColor;
         }
         else
         {

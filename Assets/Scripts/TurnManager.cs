@@ -101,8 +101,8 @@ private async Task MainGameloop()
         opponent.InitializeDuelist();
         fieldManager.Initialieze();
         _currentTopicData = null;
-        await storyManager.TestPlayAll();
 
+        await storyManager.CheckAndPlay(StoryTrigger.GameStart, CreateSnapshot());
 
         while (true){
         Debug.Log("新たなセッションを開始します。");
@@ -120,10 +120,7 @@ private async Task MainGameloop()
 
         var ComboResult = await ComboLoop(player, opponent);
         
-        check_game_end();
-        fieldManager.ResetFieldCard();
-        scoreManager.ResetCurrentTopic();
-        _currentTopicData = null;
+        await OnComboBreak(ComboResult.Item2);
 
 
         if (gameEndState != GameEndState.Continue)
@@ -134,6 +131,18 @@ private async Task MainGameloop()
         await Task.Delay(100);
     }
 
+    }
+private async Task OnComboBreak(WhoseTurn turn)
+    {
+        await comboChatManager.OnComboBreak(_currentTopicData.Type,turn);
+        
+        await storyManager.CheckAndPlay(StoryTrigger.ComboBreak, CreateSnapshot());
+        await check_game_end();
+        fieldManager.ResetFieldCard();
+        scoreManager.ResetCurrentTopic();
+        player.DiscardAllCardFromHand();
+        opponent.DiscardAllCardFromHand();
+        _currentTopicData = null;
     }
 private async Task<(SelectContinueState selectContinueState,WhoseTurn turn)> ComboLoop(DuelistManager player,DuelistManager opponent)
     {
@@ -171,6 +180,7 @@ private async Task<(SelectContinueState selectContinueState,WhoseTurn turn)> Com
 private async Task TurnSequence(DuelistManager duelist, WhoseTurn turn)
     {
         Debug.Log($"{turn}のターンが始まりました。{turnCount}ターン目");
+        await storyManager.CheckAndPlay(StoryTrigger.TurnStart, CreateSnapshot());
         await StandByPhase(duelist, turn);
  
         //await DrawPhase(duelist, turn);
@@ -185,7 +195,7 @@ private async Task TurnSequence(DuelistManager duelist, WhoseTurn turn)
 
         turnCount++;
 
-        check_game_end();
+        await check_game_end();
 
         Debug.Log($"{turn}のターンが終了しました。");
 
@@ -332,6 +342,9 @@ while (true)
         var fieldCards = fieldManager.FieldCards;
         scoreManager.CalculateScore(fieldCards);
         await comboChatManager.OnCardPlayed(_currentTopicData.Type,fieldCards[fieldCards.Count -1].Color);
+        
+        await storyManager.CheckAndPlay(StoryTrigger.CardPlayed, CreateSnapshot());
+
         _selectedCard = null;
 
 
@@ -354,12 +367,13 @@ while (true)
     // Update is called once per frame
 
 
-    private void check_game_end()
+    private async Task check_game_end()
     {
         if (scoreManager.CurrentScore >= targetScore)
         {
             gameEndState = GameEndState.Victory;
             Debug.Log("目標スコアを達成しました。ゲームを終了します。");
+            await storyManager.CheckAndPlay(StoryTrigger.GameClear, CreateSnapshot());
             OnGameFinished?.Invoke(gameEndState);
             return;
 
@@ -369,10 +383,30 @@ while (true)
         {
             gameEndState = GameEndState.Lose;
             Debug.Log("ターンリミットです。ゲームを終了します。");
+            await storyManager.CheckAndPlay(StoryTrigger.GameOver, CreateSnapshot());
             OnGameFinished?.Invoke(gameEndState);
             return;
         }
 
+    }
+
+    private GameStateSnapshot CreateSnapshot()
+    {
+        // TopicDataがnullでないなら、そのType(String)を取得、nullなら空文字かnull
+        string topicId = _currentTopicData != null ? _currentTopicData.Type.ToString() : null;
+        
+        // 現在のコンボ数はFieldManagerのカード枚数と等しいと仮定
+        // (ScoreManager側で管理しているならそちらを使ってください)
+        int currentCombo = scoreManager.CurrentComboCount;
+
+        return new GameStateSnapshot(
+            score: scoreManager.CurrentScore, // ※ScoreManagerにCurrentScoreプロパティが必要
+            combo: currentCombo,
+            turn: turnCount,
+            remain: limitTurn - turnCount,
+            topicId: topicId,
+            isActive: _currentTopicData != null
+        );
     }
     void Update()
     {

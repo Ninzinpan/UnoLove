@@ -80,7 +80,7 @@ public class ComboChatManager : MonoBehaviour
     }
 
     // --- 外部呼び出し: コンボ中断時 ---
-    public async Task OnComboBreak(CardType currentShape)
+    public async Task OnComboBreak(CardType currentShape,WhoseTurn turn)
     {
         if (!topicStates.ContainsKey(currentShape)) return;
         TopicState state = topicStates[currentShape];
@@ -103,9 +103,15 @@ public class ComboChatManager : MonoBehaviour
             AutoDelay = breakStep.AutoDelay
         };
 
-        _ = sequencer.PlaySequence(new List<ChatSequenceData> { data });
+       await sequencer.PlaySequence(new List<ChatSequenceData> { data });
         
-        // ※仕様通りインデックスはリセットしない
+
+        //ヒロインがブレイクした場合は、プレイヤーのセリフに戻す。
+        if (turn == WhoseTurn.Opponent && state.CurrentIndex > 0)
+        {
+            state.CurrentIndex--;
+        }
+
         // 文脈だけリセット
         state.LastContextColor = CardColor.None;
     }

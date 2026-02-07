@@ -95,6 +95,17 @@ private void HandleCardPlayed(BaseCardView card)
         OnCardPlayed?.Invoke(card);
     }
     
+    public void DiscardAllCardFromHand()
+    {
+        if (handManager.Hand == null || handManager.Hand.Count < 0)
+        {
+            return;
+        }
+        while(HandManager.Hand.Count > 0)
+        {
+            DiscardCardFromHand(handManager.Hand[0]);
+        }
+    }
     
     public void DiscardCardFromHand(BaseCardView card)
     {

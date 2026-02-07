@@ -8717,7 +8717,7 @@ MonoBehaviour:
   deckManager: {fileID: 1767951249}
   handManager: {fileID: 309984517}
   baseDeckData: {fileID: 11400000, guid: b1c8cfffb2b79475d915c5cafe657e26, type: 2}
-  initialHandCount: 4
+  initialHandCount: 3
 --- !u!1 &485989913
 GameObject:
   m_ObjectHideFlags: 0
@@ -15309,7 +15309,7 @@ MonoBehaviour:
   deckManager: {fileID: 433626585}
   handManager: {fileID: 2118727952}
   baseDeckData: {fileID: 11400000, guid: b1c8cfffb2b79475d915c5cafe657e26, type: 2}
-  initialHandCount: 4
+  initialHandCount: 3
 --- !u!4 &889339080
 Transform:
   m_ObjectHideFlags: 0
@@ -17428,7 +17428,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StoryManager
   sequencer: {fileID: 769425605}
   debugScenarios:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: a386bfe4a99774c8da79b8e9085cfbd4, type: 2}
   forceWaitForInput: 1
 --- !u!4 &1091329838
 Transform:
@@ -25324,9 +25324,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ComboChatManager
   sequencer: {fileID: 769425605}
-  circleTopic: {fileID: 0}
-  squareTopic: {fileID: 0}
-  triangleTopic: {fileID: 0}
+  circleTopic: {fileID: 11400000, guid: 9fedf3930ac0f4b979318c08225e2856, type: 2}
+  squareTopic: {fileID: 11400000, guid: 4f00f9a619fec499eb9a41ebb97ba767, type: 2}
+  triangleTopic: {fileID: 11400000, guid: 7fecbd6a033954ac0ad5293d8d8785e8, type: 2}
 --- !u!4 &1597618004
 Transform:
   m_ObjectHideFlags: 0
@@ -32380,7 +32380,7 @@ MonoBehaviour:
   canvasGroup: {fileID: 1780432187}
   fieldManager: {fileID: 724329794}
   scoreManager: {fileID: 973428005}
-  comboChatManager: {fileID: 0}
+  comboChatManager: {fileID: 1597618003}
   storyManager: {fileID: 1091329837}
   turnCount: 0
   limitTurn: 10
