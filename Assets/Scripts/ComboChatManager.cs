@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class ComboChatManager : MonoBehaviour
 {
@@ -26,8 +27,11 @@ public class ComboChatManager : MonoBehaviour
   
 
     // --- 外部呼び出し: カードが出された時 ---
-    public void OnCardPlayed(CardType playedShape, CardColor playedColor)
+
+
+    public async Task OnCardPlayed(CardType playedShape, CardColor playedColor)
     {
+        
         // 1. 対応する話題を取得
         if (!topicStates.ContainsKey(playedShape)) return;
         TopicState state = topicStates[playedShape];
@@ -69,14 +73,14 @@ public class ComboChatManager : MonoBehaviour
 
         // 7. Sequencerへ依頼 (Fire and Forget)
         var sequence = new List<ChatSequenceData> { data };
-        _ = sequencer.PlaySequence(sequence);
+        await sequencer.PlaySequence(sequence);
 
         // 8. インデックス進行
         state.CurrentIndex++;
     }
 
     // --- 外部呼び出し: コンボ中断時 ---
-    public void OnComboBreak(CardType currentShape)
+    public async Task OnComboBreak(CardType currentShape)
     {
         if (!topicStates.ContainsKey(currentShape)) return;
         TopicState state = topicStates[currentShape];

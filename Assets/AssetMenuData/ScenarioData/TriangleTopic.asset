@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76a235050b965420a94a095648c65048, type: 3}
+  m_Name: TriangleTopic
+  m_EditorClassIdentifier: Assembly-CSharp::TopicScenario
+  TopicId: 
+  Steps:
+  - IsPlayer: 1
+    WaitForInput: 0
+    AutoDelay: 0
+    Branches:
+    - TargetColor: 0
+      Text: Red_Squaire?
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+    - TargetColor: 1
+      Text: Green_Squaire?
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+    - TargetColor: 2
+      Text: Blue_Squaire?
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+  - IsPlayer: 0
+    WaitForInput: 0
+    AutoDelay: 0
+    Branches:
+    - TargetColor: 0
+      Text: Red_Squaire
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+    - TargetColor: 1
+      Text: Green_Squaire
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+    - TargetColor: 2
+      Text: Blue_Squaire
+      TextColor: {r: 0, g: 0, b: 0, a: 1}
+      Face: 0
+  BreakSteps: []

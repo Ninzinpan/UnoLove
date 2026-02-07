@@ -80,14 +80,15 @@ public class ScoreManager : MonoBehaviour
             // --- 追加: 最初の1枚が出された時、話題をセットする ---
             // 場の最初のカードのマークを「現在の話題」として登録
             SetPlayedTopic(fielddatas[0].Type);
+            AddScore(finalScore);
+            return;
             // ------------------------------------------------
         }
-        else 
-        {
-            var currentdata = fielddatas[fielddatas.Count -1 ];
-            var furtherdata = fielddatas[fielddatas.Count -2];
+      
+        var currentdata = fielddatas[fielddatas.Count -1 ];
+        var furtherdata = fielddatas[fielddatas.Count -2];
             
-            if ((currentdata.Color == furtherdata.Color) || (currentdata.Type == furtherdata.Type))
+        if ((currentdata.Color == furtherdata.Color) || (currentdata.Type == furtherdata.Type))
             {
                 currentComboCount += 1;
                 var finaldoubleScore = baseScorePerCard + (baseScorePerCard * comboMagnificatioin * currentComboCount);
@@ -99,7 +100,7 @@ public class ScoreManager : MonoBehaviour
                 AddEXP(10); 
                 // ------------------------------------------
             }
-            else
+        else
             {
                 currentComboCount = 0;
                 finalScore = baseScorePerCard;
@@ -108,10 +109,33 @@ public class ScoreManager : MonoBehaviour
                 SetPlayedTopic(currentdata.Type);
                 // ----------------------------------------
             }
-        }
         
         Debug.Log($"スコアが{finalScore}ポイント加算されます。現在のコンボ:{currentComboCount}");
+        AddScore(finalScore);
+        return;
+
+    }
+
+    private void AddScore(int n)
+    {
         currentScore += finalScore;
+    }
+    public void OnComboBreak()
+    {
+        
+        firstCard = null;
+        currentComboCount = 0;
+
+    }
+
+    public void SetFirstCard(CardData card)
+    {
+        if (card = null)
+        {
+            Debug.LogWarning("ファーストカードをリセットできません。");
+        }
+        firstCard = null;
+
     }
 
     // --- 追加メソッド: 現在の話題をセットする ---

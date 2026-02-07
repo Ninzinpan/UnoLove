@@ -51,6 +51,7 @@ private int targetScore = 500;
 
     private TaskCompletionSource<BaseCardView> _tcs;
     private BaseCardView _selectedCard;
+    private CardData _currentTopicData;
 
 
     public enum TurnPhase
@@ -99,6 +100,7 @@ private async Task MainGameloop()
        player.InitializeDuelist();
         opponent.InitializeDuelist();
         fieldManager.Initialieze();
+        _currentTopicData = null;
         await storyManager.TestPlayAll();
 
 
@@ -121,6 +123,8 @@ private async Task MainGameloop()
         check_game_end();
         fieldManager.ResetFieldCard();
         scoreManager.ResetCurrentTopic();
+        _currentTopicData = null;
+
 
         if (gameEndState != GameEndState.Continue)
             {
@@ -235,9 +239,13 @@ private async Task TurnSequence(DuelistManager duelist, WhoseTurn turn)
             return;
         }
         Debug.Log($"{turn}がカードを選択しました: {_selectedCard.Data.name}");
+
+
+
         if (fieldManager.CurrentFieldCardView.Data.Type == CardType.None)
         {
             scoreManager.SetPlayedTopic(_selectedCard.Data.Type);
+            scoreManager.SetFirstCard(_selectedCard.Data);
         }
         SetPlayerInputEnabled(false);
         await Task.Delay(500); // 少し待つ
@@ -297,9 +305,13 @@ while (true)
             {
                 Debug.LogWarning("FieldManagerが割り当てられていません。");
 
-        }
-                    duelist.DiscardCardFromHand(_selectedCard);
-                    _selectedCard = null;
+            }
+        if (_currentTopicData == null)
+            {
+                _currentTopicData = _selectedCard.Data;
+
+            }
+            duelist.DiscardCardFromHand(_selectedCard);
 
         }
         else
@@ -319,6 +331,12 @@ while (true)
         }
         var fieldCards = fieldManager.FieldCards;
         scoreManager.CalculateScore(fieldCards);
+        await comboChatManager.OnCardPlayed(_currentTopicData.Type,fieldCards[fieldCards.Count -1].Color);
+        _selectedCard = null;
+
+
+        
+
         await Task.Delay(500);
         return;
 
