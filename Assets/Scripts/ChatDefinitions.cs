@@ -7,7 +7,7 @@ using System;
 
 public enum ExpressionType
 {
-    Normal, Smile, Surprise, Shameful, Angry, Sad
+    Normal, Smile, Surprise, Shameful, Angry, Sad,Laugh,Awkward
 }
 
 // --- Data Classes ---

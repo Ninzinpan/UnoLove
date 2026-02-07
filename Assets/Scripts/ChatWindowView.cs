@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using System.Collections;
+using System.Threading.Tasks;
 
 public class ChatWindowView : MonoBehaviour
 {
@@ -26,8 +27,8 @@ public class ChatWindowView : MonoBehaviour
             // 変更点: 変換せずに data をそのまま渡す
             bubble.SetUp(data);
         }
-
         AutoScroll();
+
     }
 
     // UIの透明ボタンなどから呼ぶ
