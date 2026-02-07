@@ -5,7 +5,11 @@ using System;
 
 public class ChatSequencer : MonoBehaviour
 {
+    [Header("UI References")]
     [SerializeField] private ChatWindowView view;
+    
+    // ★追加: ヒロインの表情を管理するViewへの参照
+    [SerializeField] private HeroineView heroineView; 
 
     private bool isPlaying = false;
     private TaskCompletionSource<bool> clickWaiter;
@@ -44,7 +48,13 @@ public class ChatSequencer : MonoBehaviour
         {
             foreach (var data in sequence)
             {
-                // 1. 表示
+                // ★追加: プレイヤー以外の発言（＝ヒロインの発言）の場合、表情を更新
+                if (!data.IsPlayer && heroineView != null)
+                {
+                    heroineView.ChangeExpression(data.Face);
+                }
+
+                // 1. メッセージ表示
                 view.AddMessage(data);
 
                 // 2. 待機制御
@@ -53,8 +63,7 @@ public class ChatSequencer : MonoBehaviour
                     // クリック待ち
                     clickWaiter = new TaskCompletionSource<bool>();
                     await clickWaiter.Task;
-                    Debug.Log("通過テスト");
-
+                    // Debug.Log("クリック待ち通過");
                 }
                 else
                 {
@@ -69,7 +78,7 @@ public class ChatSequencer : MonoBehaviour
         }
         catch(Exception e)
         {
-            Debug.LogWarning($"例外処理が発生しました{e}");
+            Debug.LogWarning($"例外処理が発生しました: {e}");
         }
         finally
         {

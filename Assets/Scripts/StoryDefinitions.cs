@@ -25,9 +25,17 @@ public enum StoryEventID
     Combo_Reach_5,       // 5コンボ達成
     Score_Reach_1000,    // スコア1000点突破
 
+    // --- 追加: ボーナスイベント ---
+    Bonus_Session1,
+    Bonus_Session2,
+    Bonus_Session3,
+    Bonus_Session4,
+    Bonus_Session5,
+
     // --- 終了系 ---
     Game_Victory,        // クリア
     Game_Defeat          // 敗北
+    
 }
 
 // ゲーム状況のスナップショット

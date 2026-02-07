@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 1aead28eab8bd4763b085e755fc6c4ad
+guid: f2a489d432f8f418eb30fdc20c81ca6d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5798772173576514820
-    second: Heroine_Magao1_0
+      213: 4762254117626324427
+    second: Heroine_Smile_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Heroine_Magao1_0
+      name: Heroine_Smile_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 2363
-        height: 3261
+        width: 2584
+        height: 3396
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 40da2739190697050800000000000000
-      internalID: 5798772173576514820
+      spriteID: bc5224373ece61240800000000000000
+      internalID: 4762254117626324427
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Heroine_Magao1_0: 5798772173576514820
+      Heroine_Smile_0: 4762254117626324427
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
