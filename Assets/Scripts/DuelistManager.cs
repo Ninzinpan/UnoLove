@@ -79,18 +79,39 @@ class  DuelistManager : MonoBehaviour
 
 
 
-    public async Task DrawCardtoHand(int count )
+  public async Task DrawCardtoHand(int count)
     {
         for (int i = 0; i < count; i++)
         {
+            // まず普通に引いてみる
             CardData drawnCard = deckManager.DrawCard();
+
+            // 山札が空だった場合（nullが返ってきた場合）
+            if (drawnCard == null)
+            {
+                Debug.Log("山札が空になりました。捨て札を回収してリシャッフルします。");
+                
+                // ★追加: 捨て札を山札に戻す処理を呼ぶ
+                deckManager.RefillDeckFromDiscard(); 
+                
+                // もう一度引いてみる
+                drawnCard = deckManager.DrawCard();
+            }
+
+            // カードが取得できていれば手札に加える
             if (drawnCard != null)
             {
                 await handManager.AddCard(drawnCard, HandleCardPlayed, true);
             }
+            else
+            {
+                // リシャッフルしてもカードがない場合（捨て札も空など）
+                Debug.LogWarning("補充できるカードがありませんでした（ドロー中断）。");
+                break; 
+            }
         }
     }
-private void HandleCardPlayed(BaseCardView card)
+    private void HandleCardPlayed(BaseCardView card)
     {
         OnCardPlayed?.Invoke(card);
     }

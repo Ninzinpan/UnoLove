@@ -15,7 +15,7 @@ MonoBehaviour:
   TopicId: Session4_Triangle
   Steps:
   - IsPlayer: 1
-    WaitForInput: 1
+    WaitForInput: 0
     AutoDelay: 1
     Branches:
     - TargetColor: 0
@@ -31,7 +31,7 @@ MonoBehaviour:
       TextColor: {r: 0, g: 0, b: 0, a: 1}
       Face: 0
   - IsPlayer: 0
-    WaitForInput: 1
+    WaitForInput: 0
     AutoDelay: 1
     Branches:
     - TargetColor: 0
@@ -48,7 +48,7 @@ MonoBehaviour:
       TextColor: {r: 0, g: 0, b: 0, a: 1}
       Face: 0
   - IsPlayer: 1
-    WaitForInput: 1
+    WaitForInput: 0
     AutoDelay: 1
     Branches:
     - TargetColor: 0
@@ -65,7 +65,7 @@ MonoBehaviour:
       TextColor: {r: 0, g: 0, b: 0, a: 1}
       Face: 0
   - IsPlayer: 0
-    WaitForInput: 1
+    WaitForInput: 0
     AutoDelay: 1
     Branches:
     - TargetColor: 0
@@ -81,7 +81,7 @@ MonoBehaviour:
       TextColor: {r: 0, g: 0, b: 0, a: 1}
       Face: 6
   - IsPlayer: 1
-    WaitForInput: 1
+    WaitForInput: 0
     AutoDelay: 1
     Branches:
     - TargetColor: 0
@@ -98,7 +98,7 @@ MonoBehaviour:
       TextColor: {r: 0, g: 0, b: 0, a: 1}
       Face: 0
   - IsPlayer: 0
-    WaitForInput: 1
+    WaitForInput: 0
     AutoDelay: 1
     Branches:
     - TargetColor: 0

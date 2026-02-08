@@ -61,5 +61,24 @@ public class DeckManager : MonoBehaviour
         discardPile.Clear();
         Debug.Log("捨て札をクリアしました");
     }
+
+    public void RefillDeckFromDiscard()
+    {
+        if (discardPile.Count == 0)
+        {
+            Debug.LogWarning("捨て札も空のため、補充できません。");
+            return;
+        }
+
+        // 捨て札を全て山札へ移動
+        drawPile.AddRange(discardPile);
+        discardPile.Clear();
+
+        Debug.Log($"捨て札 {drawPile.Count} 枚を山札に戻しました。");
+
+        // シャッフル
+        ShuffleDeck();
+    }
 }
+
 

@@ -30,7 +30,7 @@ public class TurnManager : MonoBehaviour
 [SerializeField]
 private int turnCount = 1;
 [SerializeField]
-private int limitTurn = 5;
+private int limitSession = 5;
 
 [SerializeField]
 private int targetScore = 500;
@@ -43,7 +43,7 @@ private int targetScore = 500;
 
     public WhoseTurn CurrentTurn => currentTurn;
     public int TurnCount => turnCount;
-    public int LimitTurn => limitTurn;
+    public int LimitSession => limitSession;
 
     public int TargetScore => targetScore;
     public TurnPhase CurrentPhase {get; private set;}
@@ -53,6 +53,8 @@ private int targetScore = 500;
     private TaskCompletionSource<BaseCardView> _tcs;
     private BaseCardView _selectedCard;
     private CardData _currentTopicData;
+
+    [SerializeField]
 
     private int currentSession;
 
@@ -108,7 +110,7 @@ private async Task MainGameloop()
 
         await storyManager.CheckAndPlay(StoryTrigger.GameStart, CreateSnapshot(false));
 
-        while (true){
+        while (gameEndState == GameEndState.Continue){
         Debug.Log("新たなセッションを開始します。");
         currentSession++;
         while (player.HandManager.Hand.Count < player.InitialHandCount)            
@@ -415,7 +417,7 @@ while (true)
 
     private async Task check_game_end()
     {
-        if (scoreManager.CurrentScore >= targetScore)
+        if (scoreManager.CurrentScore >= targetScore && currentSession >= limitSession)
         {
             gameEndState = GameEndState.Victory;
             Debug.Log("目標スコアを達成しました。ゲームを終了します。");
@@ -425,7 +427,7 @@ while (true)
 
         }
         
-        if (turnCount >= limitTurn)
+        if (currentSession >= limitSession)
         {
             gameEndState = GameEndState.Lose;
             Debug.Log("ターンリミットです。ゲームを終了します。");
@@ -452,7 +454,7 @@ while (true)
             combo: currentCombo,
             turn: turnCount,
             session:currentSession,
-            remain: limitTurn - turnCount,
+            remain: limitSession - turnCount,
             topicId: topicId,
             isActive: _currentTopicData != null,
             sessionIndex: sessionIdx, // ★セッション数

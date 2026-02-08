@@ -36,7 +36,7 @@ public class TargetScoreUi : MonoBehaviour
     void Update()
     {
         totalTurn = turnManager.TurnCount;
-        limitTurn = turnManager.LimitTurn;
+        limitTurn = turnManager.LimitSession;
         int time_left = Math.Max(0,limitTurn-totalTurn);
         totalScore= scoreManager.CurrentScore; 
         targetScore = turnManager.TargetScore;

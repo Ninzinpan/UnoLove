@@ -36,7 +36,6 @@ public class ScoreManager : MonoBehaviour
 
     public void Initialieze()
     {
-        currentScore = 0;
         currentComboCount = 0;
         finalScore = 0;
         ResetCurrentTopic();

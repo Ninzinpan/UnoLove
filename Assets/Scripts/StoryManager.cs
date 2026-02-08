@@ -46,19 +46,19 @@ public class StoryManager : MonoBehaviour
             case StoryEventID.Combo_Reach_5:
                 return data.CurrentCombo >= 5;
             case StoryEventID.MainStory_Step1:
-                return progress >= 0.2f &&  data.CurrentSession >=1; // 目標の20%以上 (例: 500点なら100点)
+                return progress >= 0.2f ; // 目標の20%以上 (例: 500点なら100点)
 
             case StoryEventID.MainStory_Step2:
-                return progress >= 0.4f &&  data.CurrentSession >=2; // 40%以上
+                return progress >= 0.4f  && data.CurrentSessionIndex >= 1; // 40%以上
 
             case StoryEventID.MainStory_Step3:
-                return progress >= 0.6f &&  data.CurrentSession >=3; // 60%以上
+                return (progress >= 0.6f ) && data.CurrentSessionIndex >= 2; // 60%以上
 
             case StoryEventID.MainStory_Step4:
-                return progress >= 0.8f &&  data.CurrentSession >=4; // 80%以上
+                return (progress >= 0.8f ) && data.CurrentSessionIndex >= 3; // 80%以上
 
             case StoryEventID.MainStory_Step5:
-                return progress >= 0.95f &&  data.CurrentSession >=5; // ほぼクリア直前
+                return (progress >= 0.95f)  && data.CurrentSessionIndex >= 4; // ほぼクリア直前
 
             case StoryEventID.Game_Victory:
                 return true; 
